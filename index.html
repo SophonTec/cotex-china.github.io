@@ -4,8 +4,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, maximum-scale=1">
-  <title>CoTeX China: Your Thread to Worldwide Trade</title>
+  <title>CoTeX China | Textile Supply, Product Development & Export Support</title>
+  <meta name="description"
+    content="CoTeX is a China-based textile trading and product development company specialized in Muslim and Middle Eastern markets, with strong expertise in hijab and traditional women’s apparel fabrics.">
   <link rel="icon" href="favicon.png" type="image/png">
+
+  <!-- Keep Bootstrap 3 + your existing libs -->
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="css/style.css" rel="stylesheet" type="text/css">
   <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
@@ -16,7 +20,6 @@
     <script src="js/html5shiv.js"></script>
     <script src="js/html5element.js"></script>
   <![endif]-->
-
 </head>
 
 <body>
@@ -24,26 +27,34 @@
   <!--Header_section-->
   <header id="header_wrapper">
     <div class="container">
-      <div class="header_box">
-        <div class="logo"><a href="#"><img src="img/logo.png" alt="logo"
-              style="width: auto; height: 70px; margin-top: -10px;"></a></div>
-        <nav class="navbar navbar-inverse" role="navigation">
+      <div class="header_box header_box_v2">
+        <div class="logo logo_v2">
+          <a href="#hero_section" class="scroll-link">
+            <img src="img/logo.png" alt="CoTeX logo" class="logo_img_v2">
+          </a>
+        </div>
+
+        <nav class="navbar navbar-inverse navbar_v2" role="navigation">
           <div class="navbar-header">
             <button type="button" id="nav-toggle" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
-              <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
-                class="icon-bar"></span> <span class="icon-bar"></span> </button>
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
           </div>
-          <div id="main-nav" class="collapse navbar-collapse navStyle">
+
+          <div id="main-nav" class="collapse navbar-collapse navStyle navStyle_v2">
             <ul class="nav navbar-nav" id="mainNav">
               <li class="active"><a href="#hero_section" class="scroll-link">Home</a></li>
-              <!-- <li><a href="#service" class="scroll-link">Services</a></li> -->
-              <li><a href="#products" class="scroll-link">Products</a></li>
+              <li><a href="#products" class="scroll-link">Products & Services</a></li>
               <li><a href="#clients" class="scroll-link">Clients</a></li>
               <li><a href="#aboutUs" class="scroll-link">About Us</a></li>
               <li><a href="#contact" class="scroll-link">Contact Us</a></li>
             </ul>
           </div>
         </nav>
+
       </div>
     </div>
   </header>
@@ -51,16 +62,40 @@
 
 
   <!--Hero_Section-->
-  <section id="hero_section" class="top_cont_outer">
+  <section id="hero_section" class="top_cont_outer hero_v2">
+    <div class="hero_overlay"></div>
+
     <div class="hero_wrapper">
       <div class="container">
-        <div class="hero_section">
-          <img src="img/web_homepage_main.png" class="zoomIn wow animated"
-            style="margin-top: auto; margin-bottom: auto;" />
-          <div class="top_left_cont zoomIn wow animated" style="margin-top: -5%; margin-bottom: -5%;">
-            <h2><strong>CoTeX</strong> <a style="color: white; font-size: 80%;"> Import & Export Co., Ltd.</a></h2>
-            <h3>Your Thread to Worldwide Trade</h3>
-            <a href="#service" class="read_more2">Read more</a>
+        <div class="hero_section hero_flex">
+          <div class="top_left_cont zoomIn wow animated hero_copy">
+            <div class="hero_kicker">CHINA-BASED · TEXTILE SUPPLY · PRODUCT DEVELOPMENT · EXPORT SUPPORT</div>
+
+            <h1 class="hero_title">
+              CoTeX
+              <span class="hero_subtitle">Import & Export Co., Ltd.</span>
+            </h1>
+
+            <h2 class="hero_tagline">
+              CoTeX is a China-based textile trading and product development company specialized in Muslim and Middle
+              Eastern markets, with strong expertise in hijab and traditional women’s apparel fabrics.
+            </h2>
+
+            <div class="hero_cta">
+              <a href="#products" class="read_more2 scroll-link">Explore Products & Services</a>
+              <a href="#contact" class="read_more2 ghost scroll-link">Contact Us</a>
+            </div>
+
+            <div class="hero_points">
+              <span><i class="fa fa-check-circle"></i> Stable quality</span>
+              <span><i class="fa fa-check-circle"></i> Competitive pricing</span>
+              <span><i class="fa fa-check-circle"></i> Design-driven development</span>
+            </div>
+          </div>
+
+          <div class="hero_right hidden-xs hidden-sm">
+            <!-- Replace with your best hero image -->
+            <!-- <img src="img/hero_main.png" alt="CoTeX textile solutions" class="hero_img wow fadeInRight animated"> -->
           </div>
         </div>
       </div>
@@ -69,187 +104,184 @@
   <!--Hero_Section-->
 
 
-  <!--Service_section-->
-  <!-- <section id="service">
+  <!-- Products & Services -->
+  <section id="products" class="section_v2 section_dark">
     <div class="container">
-      <h2>Services</h2>
-      <div class="service_wrapper">
-        <div class="row">
-          <div class="col-lg-4" style="margin-top: 30px;">
-            <div class="service_block">
-              <div class="delay-03s animated wow zoomIn">
-                <img src="img/clothing.jpeg" style="width: 100%; height: auto;">
-              </div>
-              <h3 class="animated fadeInUp wow">Goods Import & Export</h3>
-              <p class="animated fadeInDown wow" style="text-align: justify;">
-                We could help you identify reliable suppliers from China that meet your quality and budget requirements.
-                <br />
-                We could also guide you through the regulations of import & export laws and tariffs to ensure your
-                operations are fully compliant. <br />
-                Besides, we provide on-site inspections or manage third-party audits to ensure that your products meet
-                all quality standards. <br />
-                In addition, our marketing research team can help identify promising markets for your products. <br />
-                Finally, our experts will prepare all necessary documents to make the export process as smooth as
-                possible.
+      <div class="section_header">
+        <h2 class="section_title">Products & Services</h2>
+        <p class="section_lead">
+          CoTeX provides integrated textile supply, product development, and export support solutions for Muslim and
+          traditional apparel markets.
+        </p>
+      </div>
+
+      <!-- 1 -->
+      <div class="service_block_v2 wow fadeInUp">
+        <div class="row row-flex">
+          <div class="col-md-6 col-sm-12">
+            <div class="service_text">
+              <div class="service_no">01</div>
+              <h3>Woven Fabrics for Traditional Apparel</h3>
+              <p>
+                We specialize in woven fabrics designed for traditional women’s suit sets in Muslim markets. We offer
+                multiple yarn counts and densities, tailored to market requirements in Pakistan, the Middle East, and
+                South Asia.
               </p>
-            </div>
-          </div>
-          <div class="col-lg-4 borderLeft" style="margin-top: 30px;">
-            <div class="service_block">
-              <div class="delay-03s animated wow zoomIn">
-                <img src="img/payment.gif" style="width: 100%; height: auto;">
-              </div>
-              <h3 class="animated fadeInUp wow">International Payments</h3>
-              <p class="animated fadeInDown wow" style="text-align: justify;">
-                Our partnerships with financial institutions will provide you with the funding solutions you need to
-                grow your export business. <br />
-                We have professional operations to handle currency conversion, currency hedging and payments associated
-                with international trade. <br />
-                Besides, we provide a legal and efficient way for exporters to reclaim some or all of the domestic taxes
-                they have paid. <br />
-                This is typically facilitated through a streamlined electronic process to reduce paperwork and expedite
-                refunds. <br />
-                With the inclusion of export tax rebate services, international payment platforms not only simplify
-                cross-border transactions but also
-                provide an additional financial advantage for exporters.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 borderLeft" style="margin-top: 30px;">
-            <div class="service_block">
-              <div class="delay-03s animated wow zoomIn">
-                <img src="img/logistics.jpeg" style="width: 100%; height: auto;">
-              </div>
-              <h3 class="animated fadeInUp wow">Logistics & Customs Clearance</h3>
-              <p class="animated fadeInDown wow" style="text-align: justify;"> 
-                We manage and organize the transportation of goods, giving your best choice among
-                seashipping, air transport, rail, and road transport. We assist clients with all customs-related
-                procedures associated with the import and export of goods. <br />
-                From shipping to customs clearance, we've got it all covered. Your goods will be safely transported from
-                the supplier to your warehouse. <br />
-                With our network of international shippers, your products will reach their destination on time and in
-                perfect condition.
+              <p class="muted">
+                Our focus is on stable quality, competitive pricing, and suitability for coordinated set production.
               </p>
+              <ul class="service_bullets">
+                <li>Multiple yarn counts & densities</li>
+                <li>Suitable for coordinated suit sets</li>
+                <li>Market-fit specs for Pakistan / MENA / South Asia</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-sm-12">
+            <div class="service_media_grid">
+              <img src="img/service_woven_1.jpg" alt="Woven fabrics for traditional apparel" class="service_img">
+              <img src="img/service_woven_2.jpg" alt="Woven fabric details" class="service_img">
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section> -->
-  <!--/Service_section-->
 
+      <!-- 2 -->
+      <div class="service_block_v2 wow fadeInUp">
+        <div class="row row-flex row-reverse-md">
+          <div class="col-md-6 col-sm-12">
+            <div class="service_text">
+              <div class="service_no">02</div>
+              <h3>Hijab Fabrics & Finished Scarves</h3>
+              <p>
+                We supply woven and knitted hijab fabrics and finished scarves tailored for Muslim markets. Our
+                offerings include plain and printed designs, as well as value-added options such as foil stamping and
+                decorative embellishments.
+              </p>
+              <ul class="service_bullets">
+                <li>Woven & knitted hijab fabrics</li>
+                <li>Plain + printed designs</li>
+                <li>Foil stamping & embellishment options</li>
+              </ul>
+            </div>
+          </div>
 
-  <!-- Service-style Products -->
-  <section id="products">
-    <div class="container">
-      <h2 style="color: white"> Product Categories </h2>
-      <div style="color: white; font-size: 20px; margin-bottom: -30px;">
-        We provide a wide range of products to meet the needs of every customer. Our product categories include:
-        <ul style="list-style-type: square;">
-          <li> Raw materials & Accessories </li>
-          <li> Machinery </li>
-          <li> Finished Goods </li>
-        </ul>
-      </div>
-
-      <div class="service_wrapper">
-        <div class="row">
-          <div class="col-lg-4" style="margin-top: 2%;">
-            <div class="service_block">
-              <div class="delay-03s animated wow zoomIn">
-                <img src="img/product_fabric.png" style="width: 100%; height: auto;">
-                <h3 class="animated fadeInUp wow" style="color: white; font-size: 20px;"> Fabrics </h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4" style="margin-top: 2%;">
-            <div class="service_block">
-              <div class="delay-03s animated wow zoomIn">
-                <img src="img/product_yarn.png" style="width: 100%; height: auto;">
-                <h3 class="animated fadeInUp wow" style="color: white; font-size: 20px;"> Yarn </h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4" style="margin-top: 2%;">
-            <div class="service_block">
-              <div class="delay-03s animated wow zoomIn">
-                <img src="img/product_glassbeads.png" style="width: 100%; height: auto;">
-                <h3 class="animated fadeInUp wow" style="color: white; font-size: 20px;"> Accessories </h3>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-4" style="margin-top: 2%;">
-            <div class="service_block">
-              <div class="delay-03s animated wow zoomIn">
-                <img src="img/printing_machine.png" style="width: 100%; height: auto;">
-                <h3 class="animated fadeInUp wow" style="color: white; font-size: 20px;"> Printing Machine </h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4" style="margin-top: 2%;">
-            <div class="service_block">
-              <div class="delay-03s animated wow zoomIn">
-                <img src="img/printing_paper.png" style="width: 100%; height: auto;">
-                <h3 class="animated fadeInUp wow" style="color: white; font-size: 20px;"> Printing Paper </h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4" style="margin-top: 2%;">
-            <div class="service_block">
-              <div class="delay-03s animated wow zoomIn">
-                <img src="img/prodcut_sock_machine.png" style="width: 100%; height: auto;">
-                <h3 class="animated fadeInUp wow" style="color: white; font-size: 20px;"> Knitting Machine </h3>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-4" style="margin-top: 2%;">
-            <div class="service_block">
-              <div class="delay-03s animated wow zoomIn">
-                <img src="img/product_apparel.png" style="width: 100%; height: auto;">
-                <h3 class="animated fadeInUp wow" style="color: white; font-size: 20px;"> Apparel </h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4" style="margin-top: 2%;">
-            <div class="service_block">
-              <div class="delay-03s animated wow zoomIn">
-                <img src="img/product_hijab.png" style="width: 100%; height: auto;">
-                <h3 class="animated fadeInUp wow" style="color: white; font-size: 20px;"> Hijab </h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4" style="margin-top: 2%;">
-            <div class="service_block">
-              <div class="delay-03s animated wow zoomIn">
-                <img src="img/product_kidswear.png" style="width: 100%; height: auto;">
-                <h3 class="animated fadeInUp wow" style="color: white; font-size: 20px;"> Kids Ware </h3>
-              </div>
+          <div class="col-md-6 col-sm-12">
+            <div class="service_media_grid">
+              <img src="img/service_hijab_1.jpg" alt="Hijab fabric and finished scarf" class="service_img">
+              <img src="img/service_hijab_2.png" alt="Finished scarves and variations" class="service_img">
             </div>
           </div>
         </div>
       </div>
+
+      <!-- 3 -->
+      <div class="service_block_v2 wow fadeInUp">
+        <div class="row row-flex">
+          <div class="col-md-6 col-sm-12">
+            <div class="service_text">
+              <div class="service_no">03</div>
+              <h3>Printing & Value-Added Processes</h3>
+              <p>
+                We offer a range of advanced printing and decorative processes, including digital direct printing, heat
+                transfer printing, foil stamping in gold and silver finishes, and rhinestone application.
+              </p>
+              <p class="muted">
+                These techniques allow us to enhance fabric aesthetics, create premium visual effects, and support
+                customized design concepts tailored to traditional apparel markets.
+              </p>
+              <ul class="service_bullets">
+                <li>Digital direct printing</li>
+                <li>Heat transfer printing</li>
+                <li>Foil stamping (gold & silver)</li>
+                <li>Rhinestone application</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-sm-12">
+            <div class="service_media_single">
+              <img src="img/service_printing_1.png" alt="Printing and value-added processes" class="service_img full">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="service_block_v2 wow fadeInUp">
+        <div class="row row-flex row-reverse-md">
+          <div class="col-md-6 col-sm-12">
+            <div class="service_text">
+              <div class="service_no">04</div>
+              <h3>Product Development & Visual Support</h3>
+              <p>
+                We provide product development and visual presentation support, including original pattern creation,
+                coordinated panel layout design for traditional suit structures, realistic product mockups, professional
+                model imagery for catalogs and pre-sales, and short promotional videos for product launches.
+              </p>
+              <ul class="service_bullets">
+                <li>Original pattern creation</li>
+                <li>Coordinated panel layout design</li>
+                <li>Product mockups & pre-sale imagery</li>
+                <li>Promotional video for product launches</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-sm-12">
+            <div class="service_media_single">
+              <img src="img/service_visual_1.png" alt="Product development and visual support" class="service_img full">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="service_block_v2 wow fadeInUp">
+        <div class="row row-flex">
+          <div class="col-md-6 col-sm-12">
+            <div class="service_text">
+              <div class="service_no">05</div>
+              <h3>Export & Customs Support</h3>
+              <p>
+                CoTeX provides complete export coordination services, including export documentation preparation,
+                customs declaration support, shipping coordination, freight forwarding assistance and payment
+                documentation support.
+              </p>
+              <ul class="service_bullets">
+                <li>Export documentation preparation</li>
+                <li>Customs declaration support</li>
+                <li>Shipping coordination & freight forwarding</li>
+                <li>Payment documentation support</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-sm-12">
+            <div class="service_media_single">
+              <img src="img/service_export_1.png" alt="Export and customs support" class="service_img full">
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
+  <!-- /Products & Services -->
 
-  <!-- /Service-style Products -->
 
-
-  <!--Clients-->
+  <!--Clients (KEEP CONTENT UNCHANGED)-->
   <section class="page_section" id="clients">
-    <h2> Global Clients </h2>
     <!--page_section-->
 
     <!--client_logos-->
     <div class="client_logos">
       <div class="container">
+        <h2> Global Clients </h2>
         <ul class="fadeInRight animated wow">
           <li><a href="javascript:void(0)">
-              <img src="img/country_USA.png" alt="" style="width: 130px; height: auto;"></a></li>
-          <li><a href="javascript:void(0)">
-              <img src="img/country_France.png" alt="" style="width: 130px; height: auto;"></a></li>
+              <img src="img/country_Pakistan.png" alt="" style="width: 130px; height: auto;"></a></li>
           <li><a href="javascript:void(0)">
               <img src="img/country_Algeria.png" alt="" style="width: 130px; height: auto;"></a></li>
           <li><a href="javascript:void(0)">
@@ -273,87 +305,80 @@
   </section>
   <!--/Clients-->
 
+
   <!--AboutUs-->
-  <section id="aboutUs">
-    <div class="inner_wrapper">
-      <div class="container">
-        <h2>About Us</h2>
-        <div class="inner_section">
-          <div class="row">
-            <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-12 pull-right">
-              <img src="img/about-img.png" class="img-circle delay-03s animated wow zoomIn">
-            </div>
-            <div class=" col-lg-7 col-md-7 col-sm-7 col-xs-12 pull-left">
-              <div class=" delay-01s animated fadeInDown wow animated">
-                <h3>CoTeX Import & Export Co., Ltd. (CoTeX Co., Ltd. below) is a recognized textile-related trade
-                  company. Established in 2013, we are dedicated to
-                  promoting the growth and advancement of the textile industry worldwide.</h3><br />
-                <h4>Core Business Offerings:</h4>
-                <p><em><strong>Raw Materials:</strong></em> We source the finest quality raw materials essential for
-                  textile production, ensuring our clients receive the best in terms of quality and cost-efficiency.</p>
-                <br />
-                <p><em><strong>Production Equipment:</strong></em> Our catalog boasts a wide range of cutting-edge
-                  machinery and tools, tailored to cater to the evolving needs of the textile manufacturing sector.</p>
-                <br />
-                <p><em><strong>Auxiliary Materials:</strong></em> We provide a comprehensive selection of auxiliary
-                  materials, crucial for enhancing the production process and the quality of the finished products.</p>
-                <br />
-                <p><em><strong>Finished Products:</strong></em> Our extensive network allows us to export a diverse
-                  range of high-quality textile products, ensuring our partners have access to the best the industry has
-                  to offer.</p> <br />
-              </div>
-              <div class="work_bottom"> <span>Want to know more..</span> <a href="#contact" class="contact_btn">Contact
-                  Us</a> </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+  <section id="aboutUs" class="section_v2 section_light">
     <div class="container">
-      <h2>Departments</h2>
-      <div class="clearfix">
-        <div class="team_area">
-          <div class="team_box wow fadeInDown delay-03s">
-            <!-- <div class="team_box_shadow"><a href="javascript:void(0)"></a></div> -->
-            <img src="img/team_showroom.png" alt="" style="width: 120%; height: auto">
+      <div class="section_header">
+        <h2 class="section_title_dark">About Us</h2>
+        <p class="section_lead_dark">
+          CoTeX is a textile supply chain and product development company based in Zhejiang, China, with a strong focus
+          on Muslim and traditional apparel markets.
+        </p>
+      </div>
+
+      <div class="row about_intro wow fadeInUp">
+        <div class="col-md-7 col-sm-12">
+          <div class="about_copy">
+            <p>
+              We specialize in hijab fabrics, traditional women’s suit sets (shirt panels, coordinated dupatta, and
+              trouser fabrics), and cotton/rayon/velvet woven textiles designed for Middle Eastern and South Asian
+              consumers.
+            </p>
+            <p>
+              Over the years, we have built long-term partnerships with dedicated production facilities in China,
+              forming a closely integrated manufacturing network that supports both stability and flexibility.
+            </p>
+            <p class="about_statement">
+              Unlike traditional trading companies that focus solely on sourcing, CoTeX combines supply chain integration
+              with design-driven development to help partners improve product differentiation and margin structure.
+            </p>
+            <p class="muted_dark">
+              We believe that long-term cooperation is built not only on competitive pricing, but also on stable
+              production, clear communication, and continuous product innovation.
+            </p>
           </div>
-          <h3 class="wow fadeInDown delay-03s">Showroom</h3>
         </div>
-        <div class="team_area">
-          <div class="team_box wow fadeInDown delay-06s">
-            <!-- <div class="team_box_shadow"><a href="javascript:void(0)"></a></div> -->
-            <img src="img/team_finance.png" alt="" style="width: 120%; height: auto">
+
+        <div class="col-md-5 col-sm-12">
+          <div class="about_media">
+            <!-- <img src="img/about_main.jpg" alt="CoTeX team and supply chain network" class="about_img"> -->
           </div>
-          <h3 class="wow fadeInDown delay-06s">Finance</h3>
-        </div>
-        <div class="team_area">
-          <div class="team_box wow fadeInDown delay-09s">
-            <!-- <div class="team_box_shadow"><a href="javascript:void(0)"></a></div> -->
-            <img src="img/team_design.png" alt="" style="width: 120%; height: auto">
-          </div>
-          <h3 class="wow fadeInDown delay-09s">Design</h3>
         </div>
       </div>
 
-      <!-- <div class="" style="text-align: left; margin-top: 0px;"> -->
-      <h4>
-        <p> CoTeX Import & Export Co., Ltd. has all functional divisions to help our clients to take advantage of the
-          efficient supply. </p><br />
-        <p> Serving over 20 countries and various product categories, CoTeX Co., Ltd. has a good reputation among
-          clients since its establishment on 2013. </p><br />
-        <p> As a distinguished textile-related trade company, we specialize in exporting machines, yarns, hijabs,
-          scarves, hats, women's garments, and kids' wear to discerning customers across the globe. </p><br />
-        <p> Our commitment to quality, innovation, and customer satisfaction has fueled our growth and positioned us
-          as a trusted name in the industry. </p><br />
-        <p> With a seamless blend of tradition and modernity, we take pride in being a catalyst for the evolution of
-          textiles, setting new benchmarks and embracing the future of global trade. </p>
-      </h4>
-      <!-- </div> -->
-    </div>
+      <div class="facility_grid">
+        <div class="facility_card wow fadeInUp">
+          <img src="img/facility_yiwu.png" alt="Yiwu hijab sewing factory" class="facility_img">
+          <div class="facility_body">
+            <h3>Yiwu Hijab Sewing Factory</h3>
+            <p>A professional hijab sewing factory in Yiwu, specializing in scarf stitching, finishing, and packaging.</p>
+          </div>
+        </div>
 
+        <div class="facility_card wow fadeInUp">
+          <img src="img/facility_keqiao.jpg" alt="Shaoxing Keqiao printing facility" class="facility_img">
+          <div class="facility_body">
+            <h3>Shaoxing Keqiao Fabric & Printing Facility</h3>
+            <p>Fabric pretreatment, digital printing, heat transfer printing, foil stamping, rhinestone application, and
+              other value-added processes.</p>
+          </div>
+        </div>
+
+        <div class="facility_card wow fadeInUp">
+          <img src="img/facility_hangzhou.jpg" alt="Hangzhou product development team" class="facility_img">
+          <div class="facility_body">
+            <h3>Hangzhou Product Development & Visual Team</h3>
+            <p>Pattern design, coordinated panel layout development, product mockups, model imagery, and marketing
+              materials for product launch.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </section>
   <!--/AboutUs-->
+
 
   <!--Footer-->
   <footer class="footer_wrapper" id="contact">
@@ -362,39 +387,55 @@
         <div class="contact_section">
           <h2>Contact Us</h2>
         </div>
+
         <div class="row">
           <div class="col-lg-4 wow fadeInLeft">
             <div class="contact_info">
               <div class="detail">
-                <h4>Office</h4>
-                <p> 5 Gaoyuan Road, Suxi Town, Yiwu City <br />
-                  Zhejiang Province, 322100, China </p>
+                <h4>Hangzhou Office</h4>
+                <p>
+                  Room B, 820, Building C, Block 4, Zhongfu Future Stellar Jin Building, Wuchang Subdistrict, Yuhang District,
+                  Hangzhou City, Zhejiang Province, 311121, China
+                </p>
+                <br />
               </div>
+
               <div class="detail">
-                <h4>Call us</h4>
-                <p>+86 153-8179-6948</p>
+                <h4>Yiwu Office</h4>
+                <p>5 Gaoyuan Road, Suxi Town, Yiwu City, Zhejiang Province, 322100, China</p>
+                <br />
               </div>
+
               <div class="detail">
-                <h4>Email us</h4>
-                <p>cotex.china@outlook.com</p>
+                <h4>Telephone</h4>
+                <p>0086-15381796948</p>
+              </div>
+
+              <div class="detail">
+                <h4>Email</h4>
+                <p><a href="mailto:contact@cotex-china.com">contact@cotex-china.com</a></p>
+              </div>
+
+              <div class="detail">
+                <a href="mailto:contact@cotex-china.com" class="contact_btn_v2">Send an Email</a>
               </div>
             </div>
           </div>
+
           <div class="col-lg-7 wow fadeInRight">
-            <img src="img/address_map.png" style="width: 100%; height: auto;" />
+            <img src="img/address_map.png" alt="CoTeX office locations" style="width: 80%; height: auto;" />
           </div>
         </div>
       </section>
     </div>
+
     <div class="container">
-      <div class="footer_bottom"><span>© 2023, CoTeX Import & Export Co., Ltd. All Rights Reserved.</span> </div>
+      <div class="footer_bottom"><span>© 2026, CoTeX Import & Export Co., Ltd. All Rights Reserved.</span></div>
     </div>
   </footer>
   <!--/Footer-->
-  <!-- javascript
-    ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
 
+  <!-- javascript ================================================== -->
   <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/jquery-scrolltofixed.js"></script>
@@ -403,6 +444,18 @@
   <script type="text/javascript" src="js/jquery.isotope.js"></script>
   <script type="text/javascript" src="js/wow.js"></script>
   <script type="text/javascript" src="js/custom.js"></script>
+
+  <script>
+    $(function () {
+      $('.scroll-link').on('click', function (e) {
+        var target = $(this).attr('href');
+        if (target && target.startsWith('#')) {
+          e.preventDefault();
+          $('html, body').animate({ scrollTop: $(target).offset().top - 80 }, 650, 'easeInOutExpo');
+        }
+      });
+    });
+  </script>
 
 </body>
 

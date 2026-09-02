@@ -419,6 +419,10 @@ a:focus { outline: none; }
   color: rgba(248,250,252,0.80);
 }
 .footer_wrapper a:hover{ color: var(--cx-gold); }
+.footer_wrapper .map_link{
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 
 .contact_btn_v2{
   display:inline-block;

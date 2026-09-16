@@ -374,6 +374,42 @@ a:focus { outline: none; }
   box-shadow: 0 16px 35px rgba(17,24,39,0.12);
 }
 
+.company_video{
+  margin: 36px 0 38px;
+}
+.company_video_header{
+  max-width: 960px;
+  margin: 0 auto 16px;
+}
+.company_video_header h3{
+  margin: 0 0 8px;
+  color: #111827;
+  font-size: 24px;
+  font-weight: 900;
+}
+.company_video_header p{
+  margin: 0;
+  color: rgba(17,24,39,0.78);
+  font-size: 16px;
+  line-height: 1.6;
+}
+.company_video_frame{
+  max-width: 960px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid rgba(199,164,106,0.35);
+  border-radius: 16px;
+  background: #000000;
+  box-shadow: 0 18px 45px rgba(17,24,39,0.18);
+}
+.company_video_player{
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #000000;
+}
+
 /* Facilities */
 .facility_grid{
   display:grid;

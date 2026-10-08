@@ -39,7 +39,7 @@
     dialog.setAttribute('aria-label', 'Product image viewer');
     dialog.innerHTML = [
       '<div class="lightbox__stage">',
-      '  <div class="lightbox__media"><img src="" alt=""></div>',
+      '  <div class="lightbox__media"><img alt=""></div>',
       '  <div class="lightbox__caption" aria-live="polite"></div>',
       '</div>',
       '<button class="lightbox__button lightbox__close" type="button" aria-label="Close image viewer">×</button>',
@@ -106,7 +106,7 @@
 
     dialog.addEventListener('close', function () {
       document.body.classList.remove('modal-open');
-      image.src = '';
+      image.removeAttribute('src');
     });
 
     dialog.addEventListener('keydown', function (event) {

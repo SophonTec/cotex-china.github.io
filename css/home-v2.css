@@ -397,8 +397,11 @@
   position: relative;
   display: block;
   width: 100%;
-  height: clamp(440px, 33.34vw, 560px);
-  min-height: 0;
+  /* The approved compositions need their full height, including on wide screens.
+     Keep 16:9 instead of capping the image in a shallow panoramic strip. */
+  height: auto;
+  aspect-ratio: 16 / 9;
+  min-height: clamp(440px, 42vw, 680px);
   margin: 0;
   padding: 0;
   border: 0;
@@ -482,16 +485,16 @@
   font-size: 14px;
 }
 .collection--scarf .collection-backdrop {
-  background-position: 50% 27%;
+  background-position: 100% top;
 }
 .collection--underwear .collection-backdrop {
-  background-position: 50% 49%;
+  background-position: left center;
 }
 .collection--women .collection-backdrop {
-  background-position: 50% 58%;
+  background-position: right center;
 }
 .collection--girls .collection-backdrop {
-  background-position: 50% 56%;
+  background-position: left center;
 }
 .home-collection.collection--scarf .collection-copy {
   transform: translateY(-8px);
@@ -589,9 +592,6 @@
   }
 }
 @media (max-width: 1439px) and (min-width: 1024px) {
-  .home-collections .home-collection {
-    height: 420px;
-  }
   .home-collection .collection-copy h2 {
     font-size: 36px;
   }
@@ -622,9 +622,6 @@
   }
   .home-hero .hero-slide--3 .title-script {
     font-size: 60px;
-  }
-  .home-collections .home-collection {
-    height: 390px;
   }
   .home-collection .collection-copy {
     width: 43%;
@@ -846,13 +843,16 @@
     font-size: 31px;
   }
   .home-collections .home-collection {
+    --collection-image-height: max(310px, 56.25vw);
     height: auto;
+    aspect-ratio: auto;
+    min-height: 0;
     display: block;
-    padding: 300px 0 30px;
+    padding: calc(var(--collection-image-height) - 10px) 0 30px;
     background: #f8f4ee;
   }
   .collection-backdrop {
-    height: 310px;
+    height: var(--collection-image-height);
     inset: 0 0 auto;
     background-image: var(--background-small);
     background-size: cover;
@@ -861,7 +861,7 @@
     display: none;
   }
   .home-collection::after {
-    top: 270px;
+    top: calc(var(--collection-image-height) - 40px);
     bottom: auto;
     height: 42px;
     background: linear-gradient(transparent, #f8f4ee);
@@ -906,13 +906,13 @@
     background-position: 86% center;
   }
   .collection--underwear .collection-backdrop {
-    background-position: 8% center;
+    background-position: left center;
   }
   .collection--women .collection-backdrop {
-    background-position: 94% center;
+    background-position: right center;
   }
   .collection--girls .collection-backdrop {
-    background-position: 5% center;
+    background-position: left center;
   }
 }
 @media (max-width: 360px) {

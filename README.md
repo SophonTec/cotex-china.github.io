@@ -6,11 +6,13 @@ Live site: https://www.cotex-china.com/
 
 ## Current release
 
-**v0.4.2 — Homepage V2** implements `CoTeX网站-V2修改.docx` on top of v0.4.1. The previous `v0.4.1`, `4-category` and `Pakistan` Git tags remain unchanged.
+**v0.4.3 — Collections Composition Fix** corrects image cropping in the HOME page's Our Collections section on top of Homepage V2. Desktop sections now follow the approved images' near-16:9 proportions; mobile keeps the stacked layout with individually positioned product images. This patch changes only collection sizing/image fitting, plus release metadata and documentation. Copy, typography, CTAs, artwork and other sections remain unchanged. The previous `v0.4.2`, `v0.4.1`, `4-category` and `Pakistan` Git tags remain unchanged.
+
+The underlying Homepage V2 design implements `CoTeX网站-V2修改.docx`:
 
 - Three distinct editorial hero compositions: left-aligned silk story, right-aligned creative story, and a centered mother/daughter story. Each has a different CTA treatment and subtle animation.
 - New COTEX AT A GLANCE overview with four capabilities, supplied fabric artwork, thin dividers and a link to About Us.
-- Four full-bleed, gap-free, alternating collections using the corrected approved images, Bodoni Moda and DM Sans. Their English copy remains unchanged.
+- Four full-bleed, gap-free, alternating collections using the corrected approved images, Bodoni Moda and DM Sans. Their English copy remains unchanged. Proportional desktop heights preserve over 99% of the source composition at 1280px, 1440px and 1920px instead of cropping it into shallow strips; text stays within a centered safe area up to 1280px.
 - The complete About Us implementation is reused on HOME in its existing order, without redesign or summarization. The compact former homepage company/global sections are removed.
 - Header, standalone About Us, four product category pages and all 127 products retain their approved content and presentation. Generated subpages only change release metadata/cache keys.
 - Contact Us text, address, GPS coordinates, map URLs, telephone and email preserved exactly.
@@ -127,6 +129,8 @@ node scripts/test-browser.mjs
 
 The test requires Firefox and geckodriver, but no npm packages. It uses exact-width browser frames to bypass Firefox's minimum desktop window width. Screenshots are saved outside the repository to `/tmp/cotex-browser-checks/`. Set `SITE_URL` to test another origin; `WEBDRIVER_URL` and `SCREENSHOT_DIR` are also supported.
 
+Collection-specific checks cover all four images at 320, 390, 767, 768, 1024, 1280, 1440 and 1920px. They verify full-width rendering, safe text positions, near-complete desktop composition, mobile product visibility, proportional sizing and no overflow. The test saves `collection-fit-*.png` and `collection-fitting.json` in its screenshot directory. Compare these browser captures with the approved source artwork; see `HOMEPAGE_V2.md` for sizing decisions and measured results.
+
 ## Release workflow
 
 1. Update `VERSION` and `CHANGELOG.md`.
@@ -135,12 +139,14 @@ The test requires Firefox and geckodriver, but no npm packages. It uses exact-wi
 4. Create an annotated `vX.Y.Z` tag and push the branch and tag.
 5. Verify GitHub Pages reports `built` for the exact commit. Check the public HTML version, representative asset hashes, all content routes and video byte-range responses before announcing publication.
 
-For v0.4.2:
+For v0.4.3:
 
 ```bash
-git push --atomic origin main v0.4.2
+git push --atomic origin main v0.4.3
 gh api repos/SophonTec/cotex-china.github.io/pages/builds/latest
 curl -I https://www.cotex-china.com/
 ```
+
+If a push does not start a Pages build, first confirm that Pages still serves `main` at `/` and that the remote branch contains the intended release commit. Then request a build with `gh api --method POST repos/SophonTec/cotex-china.github.io/pages/builds`. Wait for the exact commit to deploy successfully and verify the public site; a successful Git push alone is not confirmation of publication.
 
 To roll back, prepare and review a new revert commit on `main`, then push it. Do not rewrite shared branch history or move existing release tags.

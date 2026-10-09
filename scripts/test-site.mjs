@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync, existsSync, statSync } from "node:fs";
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { categories } from "../site/content.mjs";
 
 const version = readFileSync("VERSION", "utf8").trim();
@@ -108,7 +109,10 @@ assert.ok(statSync("assets/video/cotex-company.mp4").size < 100 * 1024 * 1024);
 const baseline = (path) =>
   execFileSync("git", ["show", "v0.4.1:" + path], { encoding: "utf8" });
 const withoutVersion = (html) =>
-  html.replaceAll(version, "RELEASE").replaceAll("0.4.1", "RELEASE");
+  html
+    .replaceAll(version, "RELEASE")
+    .replaceAll("0.4.1", "RELEASE")
+    .replaceAll("0.4.2", "RELEASE");
 const home = read("/");
 const aboutContent = read("/about/").match(
   /<main id="main-content">([\s\S]*?)<\/main>/,
@@ -174,6 +178,38 @@ for (const file of ["css/home-v2.css", "index.html"]) {
   ))
     assert.ok(existsSync("." + asset), asset);
 }
+// The collection fitting patch must not change any approved page content.
+for (const route of [
+  ...routes,
+  "/manufacturing/",
+  "/development/",
+  "/contact/",
+  "/products/",
+]) {
+  const previous = execFileSync(
+    "git",
+    ["show", "v0.4.2:" + route.slice(1) + "index.html"],
+    { encoding: "utf8" },
+  );
+  assert.equal(
+    withoutVersion(read(route)),
+    withoutVersion(previous),
+    `Only release metadata changes in ${route}`,
+  );
+}
+const imageManifest = JSON.parse(
+  readFileSync("assets/images/home-v2/manifest.json", "utf8"),
+);
+for (const asset of imageManifest.assets) {
+  assert.equal(
+    createHash("sha256").update(readFileSync(asset.file)).digest("hex"),
+    asset.sha256,
+    `Approved image unchanged: ${asset.file}`,
+  );
+}
+console.log(
+  "PASS collection fitting scope: all page content unchanged from v0.4.2 and all approved image hashes match.",
+);
 console.log(
   "PASS V2: shared About content, unchanged subpages/header/contact, exact collection copy, eight approved images, and module order.",
 );

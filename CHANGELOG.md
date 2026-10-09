@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.4.3 — Collections Composition Fix — 2026-10-09
+
+- Limited the visual patch to HOME → Our Collections: removed shallow fixed heights in favor of responsive near-16:9 sizing, retaining full-width backgrounds and the centered 1280px text safe area.
+- Adjusted image positions individually and made the mobile image height responsive, preserving key products in the existing stacked layout.
+- Preserved the alternating layout, neutral backgrounds and gap-free continuity. No image regeneration, mirroring, typography, copy, CTA or other website design changes.
+- Documented the decision to allow desktop heights above 680px to avoid excessive cropping, measured image retention and the reproducible browser checks.
+- Updated release metadata and cache keys to v0.4.3; previous tags remain unchanged.
+
+### Verification
+
+- Visually compared all four collections with the approved source images at 1280px, 1440px, 1920px and 390px. Desktop retains at least 99.67% of source height and 100% of source width.
+- All four collection fitting checks passed at 320, 390, 767, 768, 1024, 1280, 1440 and 1920px: product visibility, safe text positions, full-width edges, proportional sizing and no horizontal overflow.
+- Full browser regression passed, including navigation, carousel, product galleries, video, reduced motion, no-JavaScript fallbacks and legacy redirects. Static checks verify unchanged page content and approved image hashes.
+
 ## v0.4.2 — Homepage V2 — 2026-10-09
 
 - Implemented `CoTeX网站-V2修改.docx`, including its embedded layout/copy tables and eight approved background images.

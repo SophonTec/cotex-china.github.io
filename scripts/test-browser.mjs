@@ -83,7 +83,7 @@ try {
     },
   });
   session = result.sessionId;
-  for (const width of [320, 360, 390, 768, 1024, 1440, 1920]) {
+  for (const width of [320, 360, 390, 768, 1024, 1280, 1440, 1920]) {
     await viewport(width);
     await scrollAll();
     const v2 = await run(`
@@ -104,8 +104,11 @@ try {
         v2.glance >= 400 && v2.glance <= 460,
         `At a Glance height: ${v2.glance}`,
       );
-    if (width === 1440) assert.ok(v2.rowHeight >= 440 && v2.rowHeight <= 500);
-    if (width === 1920) assert.ok(v2.rowHeight >= 500 && v2.rowHeight <= 560);
+    if (width >= 768)
+      assert.ok(
+        Math.abs(v2.rowHeight - Math.max(440, (v2.width * 9) / 16)) < 1,
+        `Collections retain their near-16:9 composition at ${width}px`,
+      );
     if ([390, 1440].includes(width)) await screenshot(`home-${width}`);
     for (let i = 0; i < 3; i++) {
       if (i) {
@@ -276,6 +279,87 @@ try {
   assert.equal(video.autoplay, false);
   console.log(
     "PASS carousel autoplay/pause and complete corporate video playback",
+  );
+
+  // Compare the actual background's source proportions with its browser crop.
+  // Mobile may omit negative space, but must retain the key product group.
+  const productBounds = {
+    scarf: [0.51, 0.02, 0.86, 0.94],
+    underwear: [0, 0.045, 0.55, 0.97],
+    women: [0.49, 0.01, 1, 0.96],
+    girls: [0.03, 0.04, 0.45, 0.95],
+  };
+  const collectionChecks = [];
+  for (const width of [320, 390, 767, 768, 1024, 1280, 1440, 1920]) {
+    await viewport(width, "/", width >= 1920 ? 1350 : 1050);
+    await scrollAll();
+    for (const [name, product] of Object.entries(productBounds)) {
+      const selector = `.home-collection.collection--${name}`;
+      await run(
+        'document.querySelector(arguments[0]).scrollIntoView({behavior:"instant",block:"center"})',
+        [selector],
+      );
+      await wait(900);
+      const fit = await request("/execute/async", {
+        script: `
+          const [selector, product, done] = arguments;
+          const row = document.querySelector(selector);
+          const layer = row.querySelector('.collection-backdrop');
+          const style = getComputedStyle(layer);
+          const box = layer.getBoundingClientRect();
+          const rowBox = row.getBoundingClientRect();
+          const inner = row.querySelector('.collection-inner').getBoundingClientRect();
+          const copy = row.querySelector('.collection-copy').getBoundingClientRect();
+          const text = row.querySelector('.collection-copy > :first-child').getBoundingClientRect();
+          const cta = row.querySelector('.editorial-link').getBoundingClientRect();
+          const image = new Image();
+          image.onload = () => {
+            const scale = Math.max(box.width / image.naturalWidth, box.height / image.naturalHeight);
+            const w = image.naturalWidth * scale, h = image.naturalHeight * scale;
+            const x = (box.width - w) * parseFloat(style.backgroundPositionX) / 100;
+            const y = (box.height - h) * parseFloat(style.backgroundPositionY) / 100;
+            const visible = [-x/w, -y/h, (box.width-x)/w, (box.height-y)/h];
+            done({width: innerWidth, name: selector, rowWidth: rowBox.width, rowHeight: rowBox.height,
+              fullBleed: Math.abs(rowBox.left)<1 && Math.abs(rowBox.right-document.documentElement.clientWidth)<1,
+              safeArea: inner.width<=1280 && Math.abs(inner.left-(document.documentElement.clientWidth-inner.width)/2)<1,
+              copyFits: copy.left>=inner.left-1 && copy.right<=inner.right+1 && text.top>=rowBox.top && cta.bottom<=rowBox.bottom,
+              negativeSpace: row.classList.contains('collection--reverse') ? copy.left>=rowBox.width*.54 : copy.right<=rowBox.width*.47,
+              stacked: text.top>=box.bottom && cta.bottom<=rowBox.bottom,
+              visible, retainedWidth: box.width/w, retainedHeight: box.height/h,
+              productVisible: product[0]>=visible[0]-.004 && product[1]>=visible[1]-.004 && product[2]<=visible[2]+.004 && product[3]<=visible[3]+.004,
+              image: image.src, backgroundSize: style.backgroundSize,
+              unmirrored: new DOMMatrixReadOnly(style.transform).a>0});
+          };
+          image.onerror = () => done({error: style.backgroundImage});
+          image.src = style.backgroundImage.slice(5,-2);
+        `,
+        args: [selector, product],
+      });
+      assert.equal(fit.fullBleed, true, JSON.stringify(fit));
+      assert.equal(fit.safeArea, true, JSON.stringify(fit));
+      assert.equal(fit.copyFits, true, JSON.stringify(fit));
+      assert.equal(fit.unmirrored, true, JSON.stringify(fit));
+      assert.equal(fit.backgroundSize, "cover");
+      assert.ok(fit.retainedHeight >= 0.99, JSON.stringify(fit));
+      if (width >= 1024) {
+        assert.ok(fit.retainedWidth >= 0.99, JSON.stringify(fit));
+        assert.equal(fit.negativeSpace, true, JSON.stringify(fit));
+      }
+      if (width < 768) {
+        assert.equal(fit.stacked, true, JSON.stringify(fit));
+        assert.equal(fit.productVisible, true, JSON.stringify(fit));
+      }
+      await layout();
+      await screenshot(`collection-fit-${name}-${width}`);
+      collectionChecks.push(fit);
+    }
+    console.log(
+      `PASS all four collection compositions and text safe areas ${width}px`,
+    );
+  }
+  writeFileSync(
+    `${output}/collection-fitting.json`,
+    JSON.stringify(collectionChecks, null, 2),
   );
 
   // Inspect the lower editorial sections as well as the first screen.

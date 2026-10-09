@@ -6,111 +6,121 @@ Live site: https://www.cotex-china.com/
 
 ## Current release
 
-The **4-category** release is a multi-page static website centered on four product categories:
+**v0.4.1 — 4-category Visual Refresh** improves the existing `4-category` release using the supplied Word specification and product materials. The previous `4-category` and `Pakistan` Git tags remain unchanged.
 
-1. Women's Scarves
-2. Women's Underwear
-3. Women's Clothing
-4. Girls' Clothing
+- Three editorial hero slides with a six-second crossfade carousel, pause/resume, keyboard controls and mobile swipe.
+- Four alternating collection entrances, followed by a compact company introduction, corporate video and global reach.
+- One About Us page combining the corporate film, family timeline, manufacturing, international markets and development capabilities.
+- Four category pages with individual banners and all 127 product images; updated underwear images 06, 08, 17 and 20.
+- Contact Us text, address, GPS coordinates, map URLs, telephone and email preserved exactly.
+- Responsive layout, reduced-motion support, image lightbox, lazy loading and versioned assets.
 
-The site is designed for international buyers and company verification. It intentionally has no retail pricing, cart, checkout or payment functionality.
+This is a trade-oriented presentation site, without retail pricing, shopping cart, checkout or payment features. The 2005 history describes the family business origins, not a claim about the legal incorporation date of COTEX.
 
-## Technology and deployment
+## Static deployment and local editing
 
-- Static HTML, CSS and vanilla JavaScript
-- No build step or package installation
-- Hosted with GitHub Pages from the repository root on the main branch
-- Custom domain configured by CNAME
-- Automatic Pages deployment after a push to main
+The deployed site is plain HTML, CSS and JavaScript. GitHub Pages serves the repository root on `main`; there is **no server-side runtime, npm installation or build required on GitHub**. `CNAME` retains the existing custom domain.
 
-To preview locally:
+For consistent maintenance, a dependency-free local generator creates the committed HTML from shared content:
 
-~~~bash
-python3 -m http.server 8000
-~~~
+```bash
+node scripts/build-site.mjs
+node scripts/test-site.mjs
+python3 -m http.server 8000 --bind 127.0.0.1
+```
 
-Then open http://localhost:8000/.
+Open http://localhost:8000/. Run the generator after changing `site/` or `VERSION`; do not hand-edit generated pages. Node 20+ is sufficient for generation and validation.
 
 ## Routes
 
-- / — Homepage and featured products
-- /products/ — Product category overview
-- /products/womens-scarves/ — 35 product references
-- /products/womens-underwear/ — 30 product references
-- /products/womens-clothing/ — 30 product references
-- /products/girls-clothing/ — 32 product references
-- /about/ — Company story, timeline and corporate video
-- /manufacturing/ — Manufacturing model, process and facility photos
-- /development/ — Product development capabilities
-- /contact/ — Company contact entry page with the complete Contact Us footer
+| Route | Content |
+| --- | --- |
+| `/` | Carousel, four collections, About COTEX and Contact Us |
+| `/about/` | Corporate film, story, manufacturing, markets and development |
+| `/products/womens-scarves/` | Women's Scarf: 35 products |
+| `/products/womens-underwear/` | Women's Underwear: 30 products |
+| `/products/womens-clothing/` | Women's Clothing: 30 products |
+| `/products/girls-clothing/` | Girls' Clothing: 32 products |
+
+Navigation links directly to these six pages; Contact Us links to `/#contact`. Legacy URLs remain as small static redirects with a clickable fallback:
+
+- `/manufacturing/` → `/about/#manufacturing`
+- `/development/` → `/about/#development`
+- `/products/` → `/#collections`
+- `/contact/` → `/#contact`
+
+Only the six content pages are included in `sitemap.xml`.
 
 ## Project structure
 
-- index.html — Homepage
-- products/ — Product overview and four category pages
-- about/, manufacturing/, development/, contact/ — Company pages
-- css/site.css — Current responsive visual system
-- js/catalog.js — Product data mapping and gallery rendering
-- js/site.js — Navigation and accessible lightbox behavior
-- assets/images/products/ — Responsive 640px and 1200px product images
-- assets/images/manufacturing/ — Optimized factory images
-- assets/images/site/ — Official logo and video poster
-- assets/video/cotex-company.mp4 — Complete 1080p corporate video
-- ASSET_INVENTORY.md — Source asset inventory, counts, dimensions and paths
-- scripts/generate-asset-inventory.sh — Reproducible asset inventory generator
-- sitemap.xml, robots.txt — Search-engine discovery
+- `VERSION` — release number, used in page metadata, footer and CSS/JS URLs
+- `site/content.mjs` — shared category, carousel, company and timeline copy
+- `site/contact.html` — locked common Contact Us section
+- `scripts/build-site.mjs` — shared layout, static galleries, redirects and sitemap
+- `scripts/prepare-visual-assets.mjs` — reproducible import of supplied DOCX artwork and updated products
+- `scripts/test-site.mjs` — local reference, content, version and contact regression checks
+- `scripts/test-browser.mjs` — real Firefox responsive and interaction checks
+- `css/site.css`, `js/site.js` — presentation, navigation, carousel and lightbox
+- `assets/images/visual/` — optimized artwork supplied in the Word document
+- `assets/images/products/` — existing responsive product images
+- `assets/images/site/` — official logo and actual corporate-video poster
+- `assets/video/cotex-company.mp4` — full 58-second 1080p corporate film
+- `VISUAL_ASSETS.md` — v0.4.1 source mapping and import notes
+- `ASSET_INVENTORY.md` — historical 4-category source inventory
+- `CHANGELOG.md` — release history and verification record
 
-## Product image conventions
+## Source materials and media
 
-Each source product is represented by two optimized JPEG files:
+Originals are read-only and are not included in Git:
 
-- *-640.jpg for grid thumbnails and smaller screens
-- *-1200.jpg for larger screens and the lightbox
+```text
+/home/sophon/Downloads/CoTeX 网站 - 四个categories版本.docx
+/home/sophon/Downloads/产品图片&视频&logo/
+```
 
-The four category counts in js/catalog.js must match the files in assets/images/products/. Product cards use native lazy loading and responsive srcset values.
+To re-import the visual artwork (requires `unzip` and `ffmpeg`):
 
-## Corporate video
+```bash
+node scripts/prepare-visual-assets.mjs \
+  '/home/sophon/Downloads/CoTeX 网站 - 四个categories版本.docx' \
+  '/home/sophon/Downloads/产品图片&视频&logo'
+node scripts/build-site.mjs
+```
 
-The supplied 4K source was preserved outside the repository and converted to a complete 1080p H.264/AAC MP4 suitable for GitHub Pages. The website version is below GitHub's 100 MB per-file limit and uses fast-start metadata for progressive playback.
+The source video and logo are byte-identical to the previous delivery, so their optimized website versions are reused. The complete video is H.264/AAC, 1920×1080, 58.048 seconds, 29,914,442 bytes, with fast-start metadata. Native controls support sound, seeking and fullscreen; no autoplay. `preload="none"` avoids downloading the video until the visitor requests playback.
 
-The player uses:
+Product galleries are generated as HTML, so images and full-size links also work without JavaScript. The generator reads actual JPEG dimensions for accurate responsive-image descriptors, including low-resolution originals; it does not upscale them. Image enlargement progressively enhances ordinary image links.
 
-- assets/video/cotex-company.mp4
-- assets/images/site/company-video-poster.jpg
-- Native controls, metadata preloading and inline mobile playback
+## Interaction and accessibility
 
-## Contact information
+The hero advances every six seconds with a 0.8-second fade and subtle 1.03× zoom. It pauses on mouse hover, keyboard focus, explicit pause, a hidden browser tab or scrolling out of view. Reduced-motion visitors get manual controls with no autoplay or animation. Mobile users can swipe left/right; arrow keys also navigate. Inactive slides are inert and excluded from accessibility navigation.
 
-The complete Contact Us information is intentionally repeated in the footer of every page and must remain exact. Preserve:
+The lightbox supports previous/next, left/right arrow keys and Escape, and restores focus on close. Contact links remain underlined, and there is still a blank line before GPS Coordinates. Layout and route checks cover small mobile through wide desktop sizes.
 
-- Company and office names
-- Full Yiwu address
-- GPS coordinates
-- Baidu Maps URL
-- Telephone text and tel: link
-- Email text and mailto: link
-- “Send an Email” button text
+## Browser verification
 
-## Source assets
+Start the local server above and `geckodriver --port 4444` in another terminal, then:
 
-The original materials remain unchanged in:
+```bash
+node scripts/test-browser.mjs
+```
 
-~~~text
-/home/sophon/Downloads/cotex-WEBSITE
-~~~
+The test requires Firefox and geckodriver, but no npm packages. It uses exact-width browser frames to bypass Firefox's minimum desktop window width. Screenshots are saved outside the repository to `/tmp/cotex-browser-checks/`. Set `SITE_URL` to test another origin; `WEBDRIVER_URL` and `SCREENSHOT_DIR` are also supported.
 
-Run the inventory script after any source asset change:
+## Release workflow
 
-~~~bash
-scripts/generate-asset-inventory.sh /home/sophon/Downloads/cotex-WEBSITE > ASSET_INVENTORY.md
-~~~
+1. Update `VERSION` and `CHANGELOG.md`.
+2. Run the generator, static tests and browser checks; inspect the screenshots.
+3. Review the diff, then commit the generated pages together with their source files.
+4. Create an annotated `vX.Y.Z` tag and push the branch and tag.
+5. Verify GitHub Pages reports `built` for the exact commit. Check the public HTML version, representative asset hashes, all content routes and video byte-range responses before announcing publication.
 
-## Publishing
+For v0.4.1:
 
-~~~bash
-git add .
-git commit -m "Describe the website update"
-git push origin main
-~~~
+```bash
+git push --atomic origin main v0.4.1
+gh api repos/SophonTec/cotex-china.github.io/pages/builds/latest
+curl -I https://www.cotex-china.com/
+```
 
-After pushing, verify the latest GitHub Pages build and check the live HTML, CSS, representative images, video byte-range requests and all internal routes.
+To roll back, prepare and review a new revert commit on `main`, then push it. Do not rewrite shared branch history or move existing release tags.

@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.cotex-china.com/</loc><priority>1.0</priority></url>
-  <url><loc>https://www.cotex-china.com/products/</loc><priority>0.9</priority></url>
-  <url><loc>https://www.cotex-china.com/products/womens-scarves/</loc><priority>0.8</priority></url>
-  <url><loc>https://www.cotex-china.com/products/womens-underwear/</loc><priority>0.8</priority></url>
-  <url><loc>https://www.cotex-china.com/products/womens-clothing/</loc><priority>0.8</priority></url>
-  <url><loc>https://www.cotex-china.com/products/girls-clothing/</loc><priority>0.8</priority></url>
-  <url><loc>https://www.cotex-china.com/about/</loc><priority>0.7</priority></url>
-  <url><loc>https://www.cotex-china.com/manufacturing/</loc><priority>0.7</priority></url>
-  <url><loc>https://www.cotex-china.com/development/</loc><priority>0.7</priority></url>
-  <url><loc>https://www.cotex-china.com/contact/</loc><priority>0.8</priority></url>
+  <url><loc>https://www.cotex-china.com/</loc></url>
+  <url><loc>https://www.cotex-china.com/about/</loc></url>
+  <url><loc>https://www.cotex-china.com/products/womens-scarves/</loc></url>
+  <url><loc>https://www.cotex-china.com/products/womens-underwear/</loc></url>
+  <url><loc>https://www.cotex-china.com/products/womens-clothing/</loc></url>
+  <url><loc>https://www.cotex-china.com/products/girls-clothing/</loc></url>
 </urlset>

@@ -1,5 +1,7 @@
 # CoTeX 4-category Asset Inventory
 
+Historical inventory for the original `4-category` release. For the current v0.4.1 delivery, embedded Word artwork and four revised underwear images, see [VISUAL_ASSETS.md](VISUAL_ASSETS.md).
+
 Generated from the read-only source directory `/home/sophon/Downloads/cotex-WEBSITE`. Original files are not modified.
 
 ## Summary

@@ -1,0 +1,102 @@
+{
+  "document": "CoTeX网站-V2修改.docx",
+  "documentSHA256": "3896ca2bbf84a01f2feeaa6d8d8d8e6967374ed335201a15f80ff25423442b2b",
+  "assets": [
+    {
+      "source": "word/media/image6.png",
+      "sourceSHA256": "c354c4c9be8a224173674dfb06bbe0aa94c0b7d947f0405a910dad793e9acf58",
+      "file": "assets/images/home-v2/hero-art-800.webp",
+      "sha256": "caedfd003db7e7f9766e0fa42074274324279a1d73db34e7d86f3f96eb95ce50"
+    },
+    {
+      "source": "word/media/image6.png",
+      "sourceSHA256": "c354c4c9be8a224173674dfb06bbe0aa94c0b7d947f0405a910dad793e9acf58",
+      "file": "assets/images/home-v2/hero-art-1600.webp",
+      "sha256": "250b4546ab75994adaa5011d6f0caf311a1b8c3528d94f018f32f3f7eacd9c2e"
+    },
+    {
+      "source": "word/media/image7.png",
+      "sourceSHA256": "a954d568a959b74b80e6d930f6fcbb2ec320faaa465906b4dc9378aa80b0567c",
+      "file": "assets/images/home-v2/hero-design-800.webp",
+      "sha256": "72985be507f8918c703417762f1965dff4f2615a1e9c6d86931d12017de6f67c"
+    },
+    {
+      "source": "word/media/image7.png",
+      "sourceSHA256": "a954d568a959b74b80e6d930f6fcbb2ec320faaa465906b4dc9378aa80b0567c",
+      "file": "assets/images/home-v2/hero-design-1600.webp",
+      "sha256": "4210e25f4c9c1e9cda1e99916d1ea274900a87294347727e83bb76e740d9292c"
+    },
+    {
+      "source": "word/media/image8.png",
+      "sourceSHA256": "adb48f07e40de247b5287d1f5135253e89d4338ae2eada220826bceb228bd3ba",
+      "file": "assets/images/home-v2/hero-generation-800.webp",
+      "sha256": "242b827724eaeed1841fb2a561ea80a9d6d92d507d4a85fffe6be9dd31e0cb82"
+    },
+    {
+      "source": "word/media/image8.png",
+      "sourceSHA256": "adb48f07e40de247b5287d1f5135253e89d4338ae2eada220826bceb228bd3ba",
+      "file": "assets/images/home-v2/hero-generation-1600.webp",
+      "sha256": "774d75c81a5dde07504b51daf47de707db7793b2e76c445d6dfa1d79f2657911"
+    },
+    {
+      "source": "word/media/image11.png",
+      "sourceSHA256": "d4dc63ec484ef1030d15f364dd999488f47d9b342cd4c44c1f73b2f7eff191f5",
+      "file": "assets/images/home-v2/at-a-glance-800.webp",
+      "sha256": "188ee0b40f171cd0ea9b96a5be822e38db29a0a5755ac84ff216b3e025f92dbe"
+    },
+    {
+      "source": "word/media/image11.png",
+      "sourceSHA256": "d4dc63ec484ef1030d15f364dd999488f47d9b342cd4c44c1f73b2f7eff191f5",
+      "file": "assets/images/home-v2/at-a-glance-1600.webp",
+      "sha256": "2ed9ab317d1e9d7d06c472fa1d1b84671b470d6a84e5c1341b6ea664da5c7684"
+    },
+    {
+      "source": "word/media/image16.png",
+      "sourceSHA256": "03a29418ea03410cf0b5a60a1c789a7446dd7edf52a88f8599e65662ef850760",
+      "file": "assets/images/home-v2/collection-scarf-800.webp",
+      "sha256": "465cbb9980f88f7fd32dc23d876f1964882429f774eff22348d079160d292b36"
+    },
+    {
+      "source": "word/media/image16.png",
+      "sourceSHA256": "03a29418ea03410cf0b5a60a1c789a7446dd7edf52a88f8599e65662ef850760",
+      "file": "assets/images/home-v2/collection-scarf-1600.webp",
+      "sha256": "786b40652c8794da460c715007c9e3c96d7892529bd3ac10cb3977e68c6b8d91"
+    },
+    {
+      "source": "word/media/image17.png",
+      "sourceSHA256": "d16be31450d2050b441b144bab56823ac6e96b98c393fe3e016d6ccc52ab9afa",
+      "file": "assets/images/home-v2/collection-underwear-800.webp",
+      "sha256": "95c5b9ccda5a886c5452f8471528f11685879271bd10af5c88ca89464d10b99f"
+    },
+    {
+      "source": "word/media/image17.png",
+      "sourceSHA256": "d16be31450d2050b441b144bab56823ac6e96b98c393fe3e016d6ccc52ab9afa",
+      "file": "assets/images/home-v2/collection-underwear-1600.webp",
+      "sha256": "8b903c16a4d3e0505c4502ce1857ede14a9e8d4a9da18a7281876f0a5d0edc52"
+    },
+    {
+      "source": "word/media/image18.png",
+      "sourceSHA256": "7e10a6734db3fcf6ce4f5b6650dd97c122fcf134f54061be60f6db9c329e36c0",
+      "file": "assets/images/home-v2/collection-women-800.webp",
+      "sha256": "c9603fd92af70c0f70f265a801f6f9de65076efa92e889e92b5dcb83d2effbc7"
+    },
+    {
+      "source": "word/media/image18.png",
+      "sourceSHA256": "7e10a6734db3fcf6ce4f5b6650dd97c122fcf134f54061be60f6db9c329e36c0",
+      "file": "assets/images/home-v2/collection-women-1600.webp",
+      "sha256": "bb571ff09fa64737badc58835066455ec6a697294fb6b307f4466a7885daae5d"
+    },
+    {
+      "source": "word/media/image19.png",
+      "sourceSHA256": "e552e42423b6e3b0e048a876f6a49359677277c2b549311f46ad9dae98df32ba",
+      "file": "assets/images/home-v2/collection-girls-800.webp",
+      "sha256": "0db0ab7810d5aaf489f63deb989b0d6e63077a6cfc509b2698f01733867dbd04"
+    },
+    {
+      "source": "word/media/image19.png",
+      "sourceSHA256": "e552e42423b6e3b0e048a876f6a49359677277c2b549311f46ad9dae98df32ba",
+      "file": "assets/images/home-v2/collection-girls-1600.webp",
+      "sha256": "b842cd9b61d8bb68a8e7612cbf77613f4c0c4760bab6a4ad29b2ad94efddcf69"
+    }
+  ]
+}

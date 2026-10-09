@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.4.2 — Homepage V2 — 2026-10-09
+
+- Implemented `CoTeX网站-V2修改.docx`, including its embedded layout/copy tables and eight approved background images.
+- Reworked three hero slides with distinct left/right/center compositions, shared artistic calligraphy, individual CTA treatments and different lightweight motions.
+- Added COTEX AT A GLANCE with four business capabilities and a link to About Us.
+- Made all four collections full-bleed and gap-free with corrected alternating image positions, unchanged English copy, Bodoni Moda/DM Sans typography and gentle entrances.
+- Reused the complete existing About Us implementation on HOME. Removed the duplicated compact company/global overview, while preserving the standalone About Us page and rendering Contact Us only once.
+- Preserved header, shared styles/interactions, category content, all 127 product images and all contact information/URLs.
+- Added responsive WebP artwork, alpha preservation, self-hosted licensed WOFF2 fonts, import scripts, asset hashes, layout documentation and preservation regression tests.
+
+### Verification
+
+- Static regression checks enforce exact shared About HTML, unchanged standalone subpages apart from release/cache metadata, unchanged navigation and shared CSS/JS, exact collection copy and locked Contact Us details.
+- Browser regression covers desktop/mobile layouts, full-width edges and zero gaps, local fonts, hero boundaries, carousel controls, reduced motion, static fallbacks, image enlargement and corporate video playback.
+
 ## v0.4.1 — 4-category Visual Refresh — 2026-10-09
 
 - Implemented the supplied four-category Word design, including its embedded layout tables and artwork.

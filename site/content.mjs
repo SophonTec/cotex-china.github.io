@@ -67,29 +67,58 @@ export const categories = [
 
 export const slides = [
   {
-    image: "hero-scarf",
-    title: "From Products to Possibilities.",
-    subtitle: "Textiles & Apparel for Women and Girls",
-    cta: "Explore Our Products",
-    href: "#collections",
-    label: "COTEX · SINCE 2005",
+    image: "hero-art",
+    title: "The Art of Possibilities.",
+    lead: "The Art of",
+    script: "Possibilities.",
+    subtitle: "From textiles to new possibilities.",
+    cta: "Discover COTEX",
+    href: "/about/",
+    arrow: "↗",
   },
   {
-    image: "hero-women",
-    title: "Designed for Women. Made for Every Moment.",
-    subtitle: "Comfort, Style & Quality in Every Detail.",
-    cta: "Explore Women's Collection",
-    href: "#collections",
-    label: "STYLE FOR EVERY DAY",
+    image: "hero-design",
+    title: "Where Ideas Take Shape.",
+    lead: "Where Ideas",
+    script: "Take Shape.",
+    subtitle: "Creativity, craftsmanship and thoughtful development.",
+    cta: "Explore Our Story",
+    href: "/about/#story",
+    arrow: "↗",
   },
   {
-    image: "hero-girls",
+    image: "hero-generation",
     title: "Style for Every Generation.",
-    subtitle: "Thoughtfully Designed for Little Moments and Big Dreams.",
-    cta: "Explore Girls' Collection",
-    href: "/products/girls-clothing/",
-    label: "LITTLE MOMENTS. BIG DREAMS.",
+    lead: "Style for Every",
+    script: "Generation.",
+    subtitle: "Connecting women and girls through color, comfort and style.",
+    cta: "Explore Collections",
+    href: "#collections",
+    arrow: "↓",
   },
+];
+
+export const capabilities = [
+  [
+    "Product Development",
+    "Trend insight, design, materials and sampling.",
+    "design",
+  ],
+  [
+    "Supply Chain Partnership",
+    "Working with trusted manufacturing partners.",
+    "partnership",
+  ],
+  [
+    "International Trade",
+    "Order coordination, export documentation and global delivery.",
+    "trade",
+  ],
+  [
+    "A Long-Term Partner",
+    "Reliable service, responsible business and mutual growth.",
+    "growth",
+  ],
 ];
 
 export const story = [

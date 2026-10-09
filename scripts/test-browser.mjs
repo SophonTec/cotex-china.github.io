@@ -83,9 +83,29 @@ try {
     },
   });
   session = result.sessionId;
-  for (const width of [320, 360, 390, 768, 1024, 1440]) {
+  for (const width of [320, 360, 390, 768, 1024, 1440, 1920]) {
     await viewport(width);
     await scrollAll();
+    const v2 = await run(`
+      var rows=[...document.querySelectorAll('.home-collection')].map(e=>e.getBoundingClientRect());
+      var copies=[...document.querySelectorAll('.home-collection .collection-copy')].map(e=>e.getBoundingClientRect());
+      return {width:document.documentElement.clientWidth,fullBleed:rows.every(r=>Math.abs(r.left)<1&&Math.abs(r.right-document.documentElement.clientWidth)<1),
+        adjacent:rows.slice(1).every((r,i)=>Math.abs(r.top-rows[i].bottom)<1),
+        alternating:copies[0].left<copies[1].left&&copies[2].left<copies[3].left,
+        glance:document.querySelector('.at-glance').getBoundingClientRect().height,
+        rowHeight:rows[0].height,fonts:document.fonts.check('40px "Bodoni Moda"')&&document.fonts.check('40px "Great Vibes"')&&document.fonts.check('15px "DM Sans"')};`);
+    assert.equal(v2.fullBleed, true, "Collections extend edge to edge");
+    assert.equal(v2.adjacent, true, "No gaps between collections");
+    assert.equal(v2.fonts, true, "Local fonts loaded");
+    if (width >= 768)
+      assert.equal(v2.alternating, true, "Correct alternating text positions");
+    if (width >= 1024)
+      assert.ok(
+        v2.glance >= 400 && v2.glance <= 460,
+        `At a Glance height: ${v2.glance}`,
+      );
+    if (width === 1440) assert.ok(v2.rowHeight >= 440 && v2.rowHeight <= 500);
+    if (width === 1920) assert.ok(v2.rowHeight >= 500 && v2.rowHeight <= 560);
     if ([390, 1440].includes(width)) await screenshot(`home-${width}`);
     for (let i = 0; i < 3; i++) {
       if (i) {
@@ -102,7 +122,15 @@ try {
         `var r=document.querySelector('.hero').getBoundingClientRect(),c=document.querySelector('.is-active .hero-copy').getBoundingClientRect();return {ok:c.top>=r.top-1&&c.bottom<=r.bottom+1};`,
       );
       assert.ok(bounds.ok, `Slide ${i + 1} fits at ${width}px`);
-      if (width === 390 && i) await screenshot(`home-390-slide-${i + 1}`);
+      assert.equal(
+        await run(
+          `var r=document.querySelector('.hero').getBoundingClientRect();return [...document.querySelectorAll('.is-active .title-lead,.is-active .title-script,.is-active .hero-subtitle,.is-active .hero-cta')].every(e=>{var range=document.createRange();range.selectNodeContents(e);var b=range.getBoundingClientRect();return b.left>=r.left-6&&b.right<=r.right+6;});`,
+        ),
+        true,
+        `Title and CTA remain inside slide ${i + 1} at ${width}px`,
+      );
+      if ([390, 1440].includes(width) && i)
+        await screenshot(`home-${width}-slide-${i + 1}`);
     }
     if (width < 1000) {
       await click("[data-nav-toggle]");
@@ -255,10 +283,12 @@ try {
     await viewport(width);
     await scrollAll();
     for (const selector of [
+      ".at-glance",
+      ".collection--scarf",
       ".collection--underwear",
       ".collection--women",
       ".collection--girls",
-      ".home-about",
+      ".home-company",
     ]) {
       await run(
         'document.querySelector(arguments[0]).scrollIntoView({behavior:"instant"})',
@@ -444,6 +474,27 @@ try {
   );
   await layout();
   console.log("PASS no-JavaScript navigation and static product gallery");
+  await viewport(390);
+  await layout();
+  assert.equal(
+    await run(
+      'return getComputedStyle(document.querySelector(".hero-slide--1")).visibility',
+    ),
+    "visible",
+  );
+  assert.equal(
+    await run(
+      'return [...document.querySelectorAll(".home-collection .editorial-link")].length',
+    ),
+    4,
+  );
+  assert.equal(
+    await run('return document.querySelector(".home-company video").controls'),
+    true,
+  );
+  console.log(
+    "PASS no-JavaScript homepage content, collection links and video controls",
+  );
   console.log(`Screenshots: ${output}`);
 } finally {
   if (session) await request("", null, "DELETE");

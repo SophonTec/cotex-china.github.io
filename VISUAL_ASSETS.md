@@ -1,5 +1,7 @@
 # v0.4.1 visual source inventory
 
+This records the preceding delivery; About Us and category pages continue using these assets. For current homepage replacements, see [HOMEPAGE_V2.md](HOMEPAGE_V2.md) and `assets/images/home-v2/manifest.json`.
+
 ## Source deliveries
 
 - Specification and embedded artwork: `~/Downloads/CoTeX 网站 - 四个categories版本.docx`

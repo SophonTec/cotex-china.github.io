@@ -7,7 +7,7 @@ import {
   story,
   development,
   about,
-  markets,
+  capabilities,
 } from "../site/content.mjs";
 
 const version = readFileSync("VERSION", "utf8").trim();
@@ -89,19 +89,18 @@ ${contact}
 `;
 }
 function home() {
-  const hero = `<section class="hero" data-carousel role="region" aria-roledescription="carousel" aria-label="COTEX collections" tabindex="0">
+  const hero = `<section class="hero home-hero" data-carousel role="region" aria-roledescription="carousel" aria-label="COTEX stories" tabindex="0">
     ${slides
       .map(
         (
           s,
           i,
-        ) => `<article class="hero-slide${i === 0 ? " is-active" : ""}" data-slide aria-roledescription="slide" aria-label="${i + 1} of 3"${i ? ' inert aria-hidden="true"' : ""}>
-      <div class="hero-art hero-art--${i + 1}">${visual(s.image, "", "", i === 0, "100vw")}</div>
+        ) => `<article class="hero-slide hero-slide--${i + 1}${i === 0 ? " is-active" : ""}" data-slide aria-roledescription="slide" aria-label="${i + 1} of 3"${i ? ' inert aria-hidden="true"' : ""}>
+      <div class="hero-art hero-art--${i + 1}">${homeVisual(s.image, i === 0)}</div>
       <div class="container hero-inner"><div class="hero-copy">
-        <p class="eyebrow">${s.label}</p>
-        <${i === 0 ? "h1" : "h2"}>${escape(s.title)}</${i === 0 ? "h1" : "h2"}>
+        <${i === 0 ? "h1" : "h2"} class="editorial-title"><span class="title-lead">${escape(s.lead)}</span> <span class="title-script">${escape(s.script)}</span></${i === 0 ? "h1" : "h2"}>
         <p class="hero-subtitle">${escape(s.subtitle)}</p>
-        ${cta(s.cta, s.href)}
+        <a class="hero-cta hero-cta--${i + 1}" href="${s.href}"><span>${escape(s.cta)}</span><span class="cta-arrow" aria-hidden="true">${s.arrow}</span></a>
       </div></div>
     </article>`,
       )
@@ -114,42 +113,67 @@ function home() {
     </div>
     <span class="sr-only" data-carousel-status aria-live="off">Slide 1 of 3</span>
   </section>`;
-  const collections = `<section class="collections container" id="collections" aria-label="Our Collections">
+  const glance = `<section class="at-glance" aria-labelledby="glance-title">
+    ${homeBackdrop("at-a-glance", "glance-backdrop")}
+    <div class="container glance-inner"><div class="glance-intro" data-reveal>
+      <p class="eyebrow">COTEX AT A GLANCE</p><h2 id="glance-title">Built on Experience. Connected to the World.</h2>
+      <p>Rooted in Yiwu's textile industry, COTEX combines a family business heritage with product development, manufacturing partnerships and international trade expertise.</p>
+    </div><div class="capability-grid">${capabilities.map(([title, description, icon]) => `<article class="capability" data-reveal>${capabilityIcon(icon)}<h3>${title}</h3><p>${description}</p></article>`).join("")}</div>
+    <a class="editorial-link glance-cta" href="/about/">Discover COTEX <span aria-hidden="true">→</span></a></div>
+  </section>`;
+  const collections = `<section class="home-collections" id="collections" aria-labelledby="collections-title">
+    <div class="collections-heading"><h2 id="collections-title">Our Collections</h2></div>
     ${categories
       .map(
         (
           c,
           i,
-        ) => `<article class="collection collection--${c.image}${i % 2 ? " collection--reverse" : ""}">
-      <div class="collection-copy" data-reveal>
+        ) => `<article class="collection home-collection collection--${c.image}${i % 2 ? " collection--reverse" : ""}" data-collection-reveal>
+      ${homeBackdrop("collection-" + c.image, "collection-backdrop")}
+      <div class="container collection-inner"><div class="collection-copy" data-reveal>
         <p class="eyebrow">0${i + 1} / OUR COLLECTIONS</p><h2>${escape(c.name)}</h2>
         <p class="collection-headline">${escape(c.headline)}</p><p>${escape(c.summary)}</p>
-        ${cta("Explore Collection", url(c.slug))}
-      </div>
-      <a class="collection-art focus-${c.position}" href="${url(c.slug)}" aria-label="Explore ${escape(c.name)}">${visual("collection-" + c.image)}</a>
+        <a class="editorial-link" href="${url(c.slug)}">Explore Collection <span aria-hidden="true">→</span></a>
+      </div></div>
     </article>`,
       )
       .join("")}
   </section>`;
-  const company = `<section class="home-about" aria-labelledby="about-title"><div class="container">
-    <div class="about-intro">
-      <div data-reveal><p class="eyebrow">SINCE 2005 · YIWU, CHINA</p><h2 id="about-title">About COTEX</h2><h3 class="serif-subtitle">A Family-Run Business with a Global Vision</h3>${about.map((p) => `<p>${escape(p)}</p>`).join("")}${cta("Discover Our Story", "/about/")}</div>
-      <div class="video-panel">${video()}</div>
-    </div>
-    <div class="home-global">
-      <div data-reveal><p class="eyebrow">OUR GLOBAL REACH</p><h2>Connecting Global Markets</h2><p>From Yiwu to international markets, COTEX has built business relationships across multiple regions, connecting our textile and apparel products with customers worldwide.</p><p class="market-heading">Key Markets</p><ul class="market-list">${markets.map((m) => `<li>${m}</li>`).join("")}</ul></div>
-      ${globalMap()}
-    </div>
-  </div></section>`;
+  // The complete original About content is shared, not copied or redesigned.
+  // Its heading hierarchy is preserved inside its own article on the homepage.
+  const company = `<article class="home-company" aria-label="About COTEX">${aboutContent()}</article>`;
   return head(
     "Textiles & Apparel for Women and Girls",
     "Explore COTEX collections of women’s scarves, underwear, clothing and girls’ clothing. A family-run business with a global vision, based in Yiwu, China.",
     "/",
-    hero + collections + company,
+    hero + glance + collections + company,
     "home",
+    `<link rel="preload" href="/assets/fonts/great-vibes-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/bodoni-moda-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/home-v2.css?v=${version}">
+  <script src="/js/home-v2.js?v=${version}" defer></script>`,
   );
 }
-function aboutPage() {
+function homeVisual(name, eager = false) {
+  return `<img src="/assets/images/home-v2/${name}-1600.webp" srcset="/assets/images/home-v2/${name}-800.webp 800w, /assets/images/home-v2/${name}-1600.webp 1600w" sizes="100vw" alt="" width="1600" height="900" decoding="async" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'}>`;
+}
+function homeBackdrop(name, className) {
+  return `<div class="${className}" aria-hidden="true" style="--background-large:url('/assets/images/home-v2/${name}-1600.webp');--background-small:url('/assets/images/home-v2/${name}-800.webp')"></div>`;
+}
+function capabilityIcon(name) {
+  const paths = {
+    design:
+      '<path d="m7 24 2-7L23 3l6 6-14 14-8 1Z M20 6l6 6 M5 29h24 M9 17l6 6"/>',
+    partnership:
+      '<path d="m3 13 6-5 7 2 7-2 6 5-5 11-8 5-8-5-5-11Z M9 8l-6 5 5 5 8-8 8 8 M12 21l8 6 M16 17l8 7"/>',
+    trade:
+      '<circle cx="16" cy="16" r="13"/><ellipse cx="16" cy="16" rx="6" ry="13"/><path d="M3 16h26 M6 8h20 M6 24h20"/>',
+    growth:
+      '<path d="M16 29V16 M16 22C7 23 3 17 4 10c8-1 13 4 12 12Z M16 16C15 7 21 3 28 4c1 8-4 13-12 12Z M8 29h16"/>',
+  };
+  return `<svg class="capability-icon" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]}</svg>`;
+}
+function aboutContent() {
   const intro = `<section class="film-section container"><div class="section-heading"><p class="eyebrow">ABOUT COTEX</p><h1>A Family-Run Business<br>with a Global Vision</h1><p>Textiles connect people and a better life.</p></div>${video()}<div class="film-intro">${about.map((p) => `<p>${escape(p)}</p>`).join("")}</div></section>`;
   const timeline = `<section class="story-section section-tint" id="story"><div class="container"><div class="section-heading" data-reveal><p class="eyebrow">OUR FAMILY JOURNEY</p><h2>Our Story Since 2005</h2><p>From a textile shop in Yiwu to products for international markets.</p></div><ol class="timeline">${story.map(([year, title, text]) => `<li data-reveal><span class="timeline-year">${year}</span><h3>${escape(title)}</h3><p>${escape(text)}</p></li>`).join("")}</ol><p class="story-note">These milestones trace our family’s business and manufacturing journey, which forms the foundation of COTEX today.</p></div></section>`;
   const business = `<section class="business-section container" id="manufacturing"><div class="section-heading" data-reveal><p class="eyebrow">OUR BUSINESS</p><h2>Built on Manufacturing.<br>Connected Through Trade.</h2></div><div class="business-grid">${[
@@ -181,11 +205,14 @@ function aboutPage() {
     )}</div><figure class="factory-photo">${visual("factory-story", "JIHONG production workshops and factory building", "", false, "(max-width: 700px) 100vw, 1200px")}<figcaption>JIHONG manufacturing facilities · Yiwu, China</figcaption></figure></section>`;
   const global = `<section class="global-section section-tint"><div class="container"><div class="section-heading" data-reveal><p class="eyebrow">OUR GLOBAL REACH</p><h2>Connecting Global Markets</h2><p>Over the years, our business has expanded across international markets, building long-term relationships with customers in the Middle East, North Africa, Southeast Asia, Europe and the Americas.</p></div>${globalMap()}</div></section>`;
   const develop = `<section class="development-section container" id="development"><div class="section-heading" data-reveal><p class="eyebrow">DEVELOPMENT &amp; INNOVATION</p><h2>From Ideas to Products.</h2><p>At COTEX, product development goes beyond sourcing. Working with our creative team and manufacturing partners, we combine textile knowledge, design capabilities and digital tools to support product development for international markets.</p></div><div class="development-grid">${development.map(([title, text, image], i) => `<article class="development-card" data-reveal>${visual("development-" + image)}<div><span class="eyebrow">0${i + 1}</span><h3>${escape(title)}</h3><p>${escape(text)}</p></div></article>`).join("")}</div></section>`;
+  return intro + timeline + business + global + develop;
+}
+function aboutPage() {
   return head(
     "About Us",
     "Discover COTEX’s family business journey, manufacturing partnerships, development capabilities and international trade in textiles and apparel.",
     "/about/",
-    intro + timeline + business + global + develop,
+    aboutContent(),
     "about",
   );
 }

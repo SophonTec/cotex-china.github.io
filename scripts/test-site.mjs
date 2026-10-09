@@ -26,7 +26,12 @@ let references = 0;
 for (const route of routes) {
   const html = read(route);
   assert.match(html, new RegExp(`<meta name="version" content="${version}">`));
-  assert.equal((html.match(/<h1[ >]/g) || []).length, 1, `One h1: ${route}`);
+  // Home embeds the original About article, including its original heading hierarchy.
+  assert.equal(
+    (html.match(/<h1[ >]/g) || []).length,
+    route === "/" ? 2 : 1,
+    `Preserved heading hierarchy: ${route}`,
+  );
   assert.equal(
     text(contact(html)),
     text(contact(old)),
@@ -99,6 +104,79 @@ assert.equal(
 );
 assert.equal(read("/").includes("autoplay"), false);
 assert.ok(statSync("assets/video/cotex-company.mp4").size < 100 * 1024 * 1024);
+
+const baseline = (path) =>
+  execFileSync("git", ["show", "v0.4.1:" + path], { encoding: "utf8" });
+const withoutVersion = (html) =>
+  html.replaceAll(version, "RELEASE").replaceAll("0.4.1", "RELEASE");
+const home = read("/");
+const aboutContent = read("/about/").match(
+  /<main id="main-content">([\s\S]*?)<\/main>/,
+)[1];
+assert.ok(
+  home.includes(aboutContent),
+  "Home must reuse the complete, identical About implementation",
+);
+assert.doesNotMatch(home, /class="home-about"|class="home-global"/);
+assert.equal((home.match(/class="company-video"/g) || []).length, 1);
+assert.equal((home.match(/id="contact"/g) || []).length, 1);
+assert.equal((home.match(/class="capability"/g) || []).length, 4);
+for (const route of routes.filter((route) => route !== "/")) {
+  assert.equal(
+    withoutVersion(read(route)),
+    withoutVersion(baseline(route.slice(1) + "index.html")),
+    `Unmodified subpage apart from release metadata: ${route}`,
+  );
+}
+assert.equal(
+  readFileSync("css/site.css", "utf8"),
+  baseline("css/site.css"),
+  "Shared styles unchanged",
+);
+assert.equal(
+  readFileSync("js/site.js", "utf8"),
+  baseline("js/site.js"),
+  "Shared interaction unchanged",
+);
+assert.equal(
+  home.match(/<header[\s\S]*?<\/header>/)[0],
+  baseline("index.html").match(/<header[\s\S]*?<\/header>/)[0],
+  "Header unchanged",
+);
+const collectionCopy = (html) =>
+  [
+    ...html.matchAll(
+      /<div class="collection-copy" data-reveal>([\s\S]*?)<\/div>/g,
+    ),
+  ].map((m) => text(m[1]));
+assert.deepEqual(
+  collectionCopy(home),
+  collectionCopy(baseline("index.html")),
+  "Every approved collection word unchanged",
+);
+const sequence = [
+  'class="hero home-hero"',
+  'class="at-glance"',
+  'class="home-collections"',
+  'class="home-company"',
+  'id="contact"',
+];
+assert.ok(
+  sequence.every(
+    (marker, i) =>
+      i === 0 || home.indexOf(marker) > home.indexOf(sequence[i - 1]),
+  ),
+  "Homepage module order",
+);
+for (const file of ["css/home-v2.css", "index.html"]) {
+  for (const [, asset] of readFileSync(file, "utf8").matchAll(
+    /url\(['"]?(\/[^)'"\s]+)['"]?\)/g,
+  ))
+    assert.ok(existsSync("." + asset), asset);
+}
+console.log(
+  "PASS V2: shared About content, unchanged subpages/header/contact, exact collection copy, eight approved images, and module order.",
+);
 console.log(
   `PASS: six pages, four redirects, ${references} local references, 127 products, exact contact text and links, sitemap and version ${version}.`,
 );

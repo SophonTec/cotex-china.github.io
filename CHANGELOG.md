@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.4.4 — Contact Location Update — 2026-10-12
+
+- Changed both Contact Us map links to `https://j.map.baidu.com/59/2IFM` in the shared footer on all six content pages.
+- Added the supplied, unmodified `address_qrcode.png` below the Yiwu office details, with a 153px display footprint including a white quiet zone and the exact caption `Scan Here for Loacation`.
+- Removed the visible `4-category · v0.4.3` footer label while retaining copyright and internal version metadata.
+- Preserved the address wording, GPS coordinates, telephone/email, underlined links and all page content outside the shared footer.
+- Updated internal version metadata and cache keys to v0.4.4 so browsers request the new QR styles. No version label is rendered in the footer; historical tags remain unchanged.
+
+### Verification
+
+- Extended static/browser regression checks for the new links, QR image hash/loading/size, footer-label removal and unchanged page content. Confirmed the original QR decodes to a mobile link for the same Baidu POI as the new address URL.
+- Successfully decoded the QR from actual Firefox screenshots at 390px and 1440px, confirming that the rendered size and white quiet zone remain machine-readable.
+- Full browser regression passed for 320–1920px layouts, all six content pages, collection image fitting, navigation, carousel, galleries, video, reduced motion, no-JavaScript fallbacks and redirects.
+
 ## v0.4.3 — Collections Composition Fix — 2026-10-09
 
 - Limited the visual patch to HOME → Our Collections: removed shallow fixed heights in favor of responsive near-16:9 sizing, retaining full-width backgrounds and the centered 1280px text safe area.

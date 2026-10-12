@@ -6,7 +6,17 @@ Live site: https://www.cotex-china.com/
 
 ## Current release
 
-**v0.4.3 — Collections Composition Fix** corrects image cropping in the HOME page's Our Collections section on top of Homepage V2. Desktop sections now follow the approved images' near-16:9 proportions; mobile keeps the stacked layout with individually positioned product images. This patch changes only collection sizing/image fitting, plus release metadata and documentation. Copy, typography, CTAs, artwork and other sections remain unchanged. The previous `v0.4.2`, `v0.4.1`, `4-category` and `Pakistan` Git tags remain unchanged.
+**v0.4.4 — Contact Location Update** updates the shared Contact Us/footer on all six content pages. It changes the two map links, adds the supplied location QR code and removes the visible release label. All other page content and the approved collection sizing remain unchanged. Previous release tags, including `v0.4.3`, `4-category` and `Pakistan`, remain unchanged.
+
+## Contact Us and QR provenance
+
+The shared Contact Us section uses `https://j.map.baidu.com/59/2IFM` for both the street-address and “View Location on Baidu Maps” links. It includes the supplied location QR image below the Yiwu office details and the exact requested caption, `Scan Here for Loacation`. The visible `4-category · v0.4.3` footer label is removed; copyright remains. Version numbers are retained only in internal metadata and asset cache keys, not displayed in the footer.
+
+`assets/images/site/address-qrcode.png` is a byte-identical copy of `~/Downloads/address_qrcode.png` (86×86px). It is displayed at 129×129px with 12px white padding on each side (153×153px total), using pixelated scaling to keep its modules crisp. The QR payload is `https://j.map.baidu.com/t/gmIowv`; on 2026-10-12, both this mobile link and the new address link resolved to Baidu POI `42a4bf3e41dcd4da6f4760f4`. The mobile QR link may open Baidu's app handoff/download page. Address wording, GPS coordinates, phone, email and link underlines remain unchanged.
+
+## Retained Homepage V2 design
+
+The **v0.4.3 Collections Composition Fix** remains in place: desktop sections follow the approved images' near-16:9 proportions; mobile keeps the stacked layout with individually positioned product images. The v0.4.4 contact update does not change collection sizing, copy, typography, CTAs or artwork.
 
 The underlying Homepage V2 design implements `CoTeX网站-V2修改.docx`:
 
@@ -14,8 +24,8 @@ The underlying Homepage V2 design implements `CoTeX网站-V2修改.docx`:
 - New COTEX AT A GLANCE overview with four capabilities, supplied fabric artwork, thin dividers and a link to About Us.
 - Four full-bleed, gap-free, alternating collections using the corrected approved images, Bodoni Moda and DM Sans. Their English copy remains unchanged. Proportional desktop heights preserve over 99% of the source composition at 1280px, 1440px and 1920px instead of cropping it into shallow strips; text stays within a centered safe area up to 1280px.
 - The complete About Us implementation is reused on HOME in its existing order, without redesign or summarization. The compact former homepage company/global sections are removed.
-- Header, standalone About Us, four product category pages and all 127 products retain their approved content and presentation. Generated subpages only change release metadata/cache keys.
-- Contact Us text, address, GPS coordinates, map URLs, telephone and email preserved exactly.
+- Header, standalone About Us/product main content and all 127 products retain their approved content and presentation. Generated subpages incorporate only the shared contact/footer updates and release metadata/cache keys.
+- Original address wording, GPS coordinates, telephone and email are preserved. The new map URL and supplied QR code are shared consistently across all six content pages.
 - Responsive layout, reduced-motion support, image lightbox, lazy loading and versioned assets.
 
 This is a trade-oriented presentation site, without retail pricing, shopping cart, checkout or payment features. The 2005 history describes the family business origins, not a claim about the legal incorporation date of COTEX.
@@ -56,9 +66,9 @@ Only the six content pages are included in `sitemap.xml`.
 
 ## Project structure
 
-- `VERSION` — release number, used in page metadata, footer and CSS/JS URLs
+- `VERSION` — release number, used in page metadata and CSS/JS URLs, not displayed in the footer
 - `site/content.mjs` — shared category, carousel, company and timeline copy
-- `site/contact.html` — locked common Contact Us section
+- `site/contact.html` — shared Contact Us and copyright footer; update all six content pages through the generator
 - `scripts/build-site.mjs` — shared layout, static galleries, redirects and sitemap
 - `scripts/prepare-visual-assets.mjs` — reproducible import of supplied DOCX artwork and updated products
 - `scripts/prepare-v2-assets.mjs` — V2 approved artwork import and source/output SHA-256 manifest
@@ -72,6 +82,7 @@ Only the six content pages are included in `sitemap.xml`.
 - `assets/images/visual/` — optimized artwork supplied in the Word document
 - `assets/images/products/` — existing responsive product images
 - `assets/images/site/` — official logo and actual corporate-video poster
+- `assets/images/site/address-qrcode.png` — supplied, unmodified Baidu location QR code
 - `assets/video/cotex-company.mp4` — full 58-second 1080p corporate film
 - `VISUAL_ASSETS.md` — v0.4.1 source mapping and import notes
 - `HOMEPAGE_V2.md` — current layout, asset mapping, typography and preservation rules
@@ -131,6 +142,8 @@ The test requires Firefox and geckodriver, but no npm packages. It uses exact-wi
 
 Collection-specific checks cover all four images at 320, 390, 767, 768, 1024, 1280, 1440 and 1920px. They verify full-width rendering, safe text positions, near-complete desktop composition, mobile product visibility, proportional sizing and no overflow. The test saves `collection-fit-*.png` and `collection-fitting.json` in its screenshot directory. Compare these browser captures with the approved source artwork; see `HOMEPAGE_V2.md` for sizing decisions and measured results.
 
+Contact checks verify both new map URLs, QR loading and its 153px display footprint, exact caption, retained copyright and removal of the release label. Static tests check the original QR image's SHA-256 and preservation of all main content outside the shared footer. The QR was also successfully decoded from actual 390px and 1440px Firefox screenshots; its payload matches the supplied original, not a regenerated QR.
+
 ## Release workflow
 
 1. Update `VERSION` and `CHANGELOG.md`.
@@ -139,10 +152,10 @@ Collection-specific checks cover all four images at 320, 390, 767, 768, 1024, 12
 4. Create an annotated `vX.Y.Z` tag and push the branch and tag.
 5. Verify GitHub Pages reports `built` for the exact commit. Check the public HTML version, representative asset hashes, all content routes and video byte-range responses before announcing publication.
 
-For v0.4.3:
+For v0.4.4:
 
 ```bash
-git push --atomic origin main v0.4.3
+git push --atomic origin main v0.4.4
 gh api repos/SophonTec/cotex-china.github.io/pages/builds/latest
 curl -I https://www.cotex-china.com/
 ```

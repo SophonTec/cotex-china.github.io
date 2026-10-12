@@ -23,6 +23,13 @@ const text = (html) =>
     .replace(/\s+/g, " ")
     .trim();
 const links = (html) => [...html.matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
+const mapURL = "https://j.map.baidu.com/59/2IFM";
+const withoutQR = (html) =>
+  html.replace(/<figure class="contact-location-qr">[\s\S]*?<\/figure>/g, "");
+const expectedContactLinks = links(contact(old)).map((url) =>
+  url.startsWith("https://map.baidu.com/") ? mapURL : url,
+);
+const contactTemplate = readFileSync("site/contact.html", "utf8");
 let references = 0;
 for (const route of routes) {
   const html = read(route);
@@ -34,15 +41,28 @@ for (const route of routes) {
     `Preserved heading hierarchy: ${route}`,
   );
   assert.equal(
-    text(contact(html)),
+    text(withoutQR(contact(html))),
     text(contact(old)),
-    `Unchanged contact copy: ${route}`,
+    `Original address, coordinates, telephone and email preserved: ${route}`,
   );
   assert.deepEqual(
     links(contact(html)),
-    links(contact(old)),
-    `Unchanged contact URLs: ${route}`,
+    expectedContactLinks,
+    `Updated map links and unchanged telephone/email URLs: ${route}`,
   );
+  assert.equal(
+    contact(html),
+    contact(contactTemplate),
+    `Shared contact section: ${route}`,
+  );
+  assert.equal((html.match(/class="contact-location-qr"/g) || []).length, 1);
+  assert.match(html, /<figcaption>Scan Here for Loacation<\/figcaption>/);
+  assert.match(
+    html,
+    /<img src="\/assets\/images\/site\/address-qrcode\.png"[^>]*width="86" height="86"/,
+  );
+  assert.doesNotMatch(html, /class="release"|4-category ·/);
+  assert.match(html, /All Rights Reserved\./);
   assert.equal(
     (html.match(/target="_blank" rel="noopener noreferrer"/g) || []).length,
     2,
@@ -112,7 +132,11 @@ const withoutVersion = (html) =>
   html
     .replaceAll(version, "RELEASE")
     .replaceAll("0.4.1", "RELEASE")
-    .replaceAll("0.4.2", "RELEASE");
+    .replaceAll("0.4.2", "RELEASE")
+    .replaceAll("0.4.3", "RELEASE");
+// The shared footer is checked independently, including its approved contact changes.
+const withoutFooterAndVersion = (html) =>
+  withoutVersion(html).replace(/<footer\b[\s\S]*?<\/footer>/, "SHARED_FOOTER");
 const home = read("/");
 const aboutContent = read("/about/").match(
   /<main id="main-content">([\s\S]*?)<\/main>/,
@@ -127,15 +151,19 @@ assert.equal((home.match(/id="contact"/g) || []).length, 1);
 assert.equal((home.match(/class="capability"/g) || []).length, 4);
 for (const route of routes.filter((route) => route !== "/")) {
   assert.equal(
-    withoutVersion(read(route)),
-    withoutVersion(baseline(route.slice(1) + "index.html")),
-    `Unmodified subpage apart from release metadata: ${route}`,
+    withoutFooterAndVersion(read(route)),
+    withoutFooterAndVersion(baseline(route.slice(1) + "index.html")),
+    `Unmodified subpage outside the shared footer and release metadata: ${route}`,
   );
 }
+const withoutContactStyleChanges = (css) =>
+  css
+    .replace(/\.contact-location-qr(?: img| figcaption)? \{[^}]*\}\n/g, "")
+    .replace(/\.release \{[^}]*\}\n/g, "");
 assert.equal(
-  readFileSync("css/site.css", "utf8"),
-  baseline("css/site.css"),
-  "Shared styles unchanged",
+  withoutContactStyleChanges(readFileSync("css/site.css", "utf8")),
+  withoutContactStyleChanges(baseline("css/site.css")),
+  "Shared styles unchanged outside QR styling and the removed release label",
 );
 assert.equal(
   readFileSync("js/site.js", "utf8"),
@@ -178,7 +206,7 @@ for (const file of ["css/home-v2.css", "index.html"]) {
   ))
     assert.ok(existsSync("." + asset), asset);
 }
-// The collection fitting patch must not change any approved page content.
+// The approved page content stays intact outside the shared footer.
 for (const route of [
   ...routes,
   "/manufacturing/",
@@ -188,15 +216,22 @@ for (const route of [
 ]) {
   const previous = execFileSync(
     "git",
-    ["show", "v0.4.2:" + route.slice(1) + "index.html"],
+    ["show", "v0.4.3:" + route.slice(1) + "index.html"],
     { encoding: "utf8" },
   );
   assert.equal(
-    withoutVersion(read(route)),
-    withoutVersion(previous),
-    `Only release metadata changes in ${route}`,
+    withoutFooterAndVersion(read(route)),
+    withoutFooterAndVersion(previous),
+    `Only shared footer and release metadata changes in ${route}`,
   );
 }
+assert.equal(
+  createHash("sha256")
+    .update(readFileSync("assets/images/site/address-qrcode.png"))
+    .digest("hex"),
+  "d502ecb3d96a13e5d29b07474e6ed8214bbf9ba2c650382d4415eae1a382f04f",
+  "Supplied location QR image is byte-identical to the original",
+);
 const imageManifest = JSON.parse(
   readFileSync("assets/images/home-v2/manifest.json", "utf8"),
 );
@@ -208,11 +243,11 @@ for (const asset of imageManifest.assets) {
   );
 }
 console.log(
-  "PASS collection fitting scope: all page content unchanged from v0.4.2 and all approved image hashes match.",
+  "PASS scope: page content outside the shared footer unchanged from v0.4.3; approved image and QR hashes match.",
 );
 console.log(
-  "PASS V2: shared About content, unchanged subpages/header/contact, exact collection copy, eight approved images, and module order.",
+  "PASS V2: shared About content, unchanged main content/header, exact collection copy, eight approved images, and module order.",
 );
 console.log(
-  `PASS: six pages, four redirects, ${references} local references, 127 products, exact contact text and links, sitemap and version ${version}.`,
+  `PASS: six pages, four redirects, ${references} local references, 127 products, updated map links/QR, removed footer release label, sitemap and version ${version}.`,
 );

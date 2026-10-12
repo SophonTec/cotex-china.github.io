@@ -967,6 +967,27 @@ video:focus-visible,
 .contact-card .button {
   margin-top: 14px;
 }
+.contact-location-qr {
+  width: 153px;
+  max-width: 100%;
+  margin-top: 20px;
+}
+.contact-location-qr img {
+  display: block;
+  box-sizing: content-box;
+  width: 129px;
+  height: 129px;
+  padding: 12px;
+  background: #fff;
+  image-rendering: pixelated;
+}
+.contact-location-qr figcaption {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+  color: #536071;
+}
 .footer-bottom {
   border-top: 1px solid #e1e5eb;
   padding-block: 18px;
@@ -975,10 +996,6 @@ video:focus-visible,
   gap: 20px;
   font-size: 11px;
   color: #6b7582;
-}
-.release {
-  white-space: nowrap;
-  letter-spacing: 0.06em;
 }
 .lightbox {
   border: 0;

@@ -1,8 +1,10 @@
-# Homepage V2 — v0.4.3
+# Homepage V2 — v0.4.4
 
 Requirements: `~/Downloads/CoTeX网站-V2修改.docx`, including its 12 embedded spreadsheet tables and approved artwork. The final layout corrections take precedence over the earlier CTA-position suggestions in the first table. Each section's “do not modify other modules” restriction is applied to that section; the complete document authorizes all four homepage changes.
 
 The v0.4.3 follow-up, “COTEX HOME — Our Collections Width & Image Cropping Fix”, supersedes the original shallow collection height limits only. It does not redesign any other module or alter the approved copy, typography, text alignment, CTA styles or image files.
+
+The v0.4.4 Contact Location Update changes only the shared Contact Us/footer, release metadata and cache keys. It introduces the new Baidu map URL and supplied location QR code and removes the visible footer release label. The Homepage V2 compositions and collection fitting below remain unchanged.
 
 ## Homepage sequence
 
@@ -10,13 +12,13 @@ Header → Editorial Hero → COTEX AT A GLANCE → Our Collections → complete
 
 ## Preservation contract
 
-- `css/site.css`, `js/site.js` and `site/contact.html` remain unchanged from v0.4.1.
-- Header HTML is unchanged. The standalone About Us and product category HTML only changes version metadata, footer version and asset cache keys.
+- `js/site.js` remains unchanged from v0.4.1. Shared styles remain unchanged except the scoped Contact Us QR rules and removal of the unused release-label rule in v0.4.4.
+- Header HTML and standalone About Us/product main content remain unchanged. Shared Contact Us/footer updates are made only in `site/contact.html` and propagated through the generator.
 - All approved collection headings, taglines, descriptions and CTA wording remain identical.
 - `aboutContent()` in `scripts/build-site.mjs` is the single implementation used by both HOME and `/about/`. Its full HTML is reused, including the original heading hierarchy, images, video, timeline, card layouts, animations and internal IDs. The enclosing homepage article creates no duplicate IDs, header or footer.
 - HOME includes one video player, one company-history sequence and one Contact Us section. The former compact About COTEX/Our Global Reach pair is no longer rendered.
 - `/about/`, `/about/#story`, legacy route redirects and all category URLs remain available.
-- `scripts/test-site.mjs` compares these invariants against Git tag `v0.4.1` and the locked contact section against `4-category`.
+- `scripts/test-site.mjs` compares main content and styles against Git tags `v0.4.1`/`v0.4.3`. It checks the original address/GPS/phone/email against `4-category`, allowing only the requested new map URL and QR figure, and verifies removal of the visible footer version label. See README for contact update details and QR provenance.
 
 ## Approved image mapping
 

@@ -63,6 +63,28 @@ async function layout() {
   assert.deepEqual(result.broken, []);
   assert.deepEqual(result.errors, []);
 }
+async function contactDetails() {
+  const details = await run(`
+    const footer=document.querySelector('.site-footer'),qr=footer.querySelector('.contact-location-qr'),img=qr.querySelector('img'),r=img.getBoundingClientRect();
+    return {links:[...footer.querySelectorAll('a[target="_blank"]')].map(a=>a.href),caption:qr.querySelector('figcaption').textContent,
+      loaded:img.complete&&img.naturalWidth===86&&img.naturalHeight===86,width:r.width,height:r.height,padding:getComputedStyle(img).paddingLeft,
+      pixelated:getComputedStyle(img).imageRendering,inside:r.left>=0&&r.right<=document.documentElement.clientWidth,
+      release:footer.querySelector('.release')!==null,legacyLabel:footer.textContent.includes('4-category ·'),copyright:footer.textContent.includes('All Rights Reserved.')};`);
+  assert.deepEqual(details.links, [
+    "https://j.map.baidu.com/59/2IFM",
+    "https://j.map.baidu.com/59/2IFM",
+  ]);
+  assert.equal(details.caption, "Scan Here for Loacation");
+  assert.equal(details.loaded, true);
+  assert.equal(details.width, 153);
+  assert.equal(details.height, 153);
+  assert.equal(details.padding, "12px");
+  assert.equal(details.pixelated, "pixelated");
+  assert.equal(details.inside, true);
+  assert.equal(details.release, false);
+  assert.equal(details.legacyLabel, false);
+  assert.equal(details.copyright, true);
+}
 async function scrollAll() {
   await run(
     `document.querySelectorAll('img[loading="lazy"]').forEach(i=>i.loading='eager');document.querySelectorAll('[data-reveal]').forEach(e=>e.classList.add('is-visible'));`,
@@ -160,6 +182,7 @@ try {
       `return [...document.querySelectorAll('.contact-card a:not(.button)')].every(a=>getComputedStyle(a).textDecorationLine.includes('underline'));`,
     );
     assert.ok(underline);
+    await contactDetails();
     if (width === 390 || width === 1440) await screenshot(`contact-${width}`);
     await layout();
     console.log(`PASS home and contact ${width}px`);
@@ -171,6 +194,7 @@ try {
     for (const width of [390, 1440]) {
       await viewport(width, route);
       await scrollAll();
+      await contactDetails();
       await screenshot(
         `${route.split("/").filter(Boolean).join("-")}-${width}`,
       );

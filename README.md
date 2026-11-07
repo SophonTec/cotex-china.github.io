@@ -163,3 +163,15 @@ curl -I https://www.cotex-china.com/
 If a push does not start a Pages build, first confirm that Pages still serves `main` at `/` and that the remote branch contains the intended release commit. Then request a build with `gh api --method POST repos/SophonTec/cotex-china.github.io/pages/builds`. Wait for the exact commit to deploy successfully and verify the public site; a successful Git push alone is not confirmation of publication.
 
 To roll back, prepare and review a new revert commit on `main`, then push it. Do not rewrite shared branch history or move existing release tags.
+
+## Double document tools
+
+`https://www.cotex-china.com/tools/double/` serves the static document tool from
+`~/cotex-china/cotex-china-tools` (source commit
+`df1cb3b2169311269adeabd67eead92acefb3fce`).
+
+The deployed copy contains `index.html`, `css/`, `js/`, `lib/`, and `assets/`.
+Keep relative asset paths and the trailing slash: PDF and OCR workers load their
+bundled resources below this directory. No backend or build step is required.
+For updates, sync only those runtime files into `tools/double/`, verify Excel,
+PDF and OCR in a browser, then commit and push to the Pages branch `main`.

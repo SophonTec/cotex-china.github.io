@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>单证工具</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">单</span>
+    <div><b>单证工具</b><small>把外部文件一键整理成公司模版</small></div>
+  </div>
+  <div class="privacy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>文件只在本机浏览器处理，不会上传</div>
+</header>
+
+<div class="layout">
+  <aside class="side">
+    <div class="side-title">单证模版</div>
+    <nav id="tplList" class="tpl-list"></nav>
+  </aside>
+
+  <main class="main">
+    <div class="page-head">
+      <div>
+        <span id="tplGroup" class="eyebrow"></span>
+        <h1 id="tplName"></h1>
+        <p id="tplDesc" class="muted"></p>
+      </div>
+      <ol class="steps">
+        <li class="step" data-step="1"><span class="dot">1</span>上传文件</li>
+        <li class="step" data-step="2"><span class="dot">2</span>核对修改</li>
+        <li class="step" data-step="3"><span class="dot">3</span>导出</li>
+      </ol>
+    </div>
+
+    <input id="file" type="file" accept=".xlsx,.xls,.xlsm,.pdf" multiple hidden>
+
+    <!-- 空状态：引导上传 -->
+    <section id="empty">
+      <div id="drop" class="drop" data-pick role="button" tabindex="0">
+        <div class="drop-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></div>
+        <h2 id="dropTitle">把文件拖到这里</h2>
+        <p class="muted">支持 Excel（.xlsx / .xls）和 PDF，可以一次选多份</p>
+        <button class="btn primary big" type="button">选择文件</button>
+      </div>
+      <div class="how">
+        <div class="how-item"><span class="num">1</span><div><b>上传</b><p>拖入一份或多份文件，自动识别全部产品行、金额和条款</p></div></div>
+        <div class="how-item"><span class="num">2</span><div><b>核对</b><p>自动重新编号、计算金额并与原文件合计比对，有问题会标出来</p></div></div>
+        <div class="how-item"><span class="num">3</span><div><b>导出</b><p>按公司模版生成 PDF 和 Excel，可逐份下载或一次打包</p></div></div>
+      </div>
+    </section>
+
+    <!-- 工作区：文件列表 -->
+    <section id="workspace" hidden>
+      <div class="ws-head">
+        <h2>已上传的文件</h2>
+        <button class="btn ghost" data-pick type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span>继续添加</span></button>
+      </div>
+      <div id="list"></div>
+    </section>
+  </main>
+</div>
+
+<!-- 底部批量操作栏 -->
+<div id="bulk" class="bulk" hidden>
+  <div class="bulk-inner">
+    <span id="bulkSummary"></span>
+    <div class="spacer"></div>
+    <button id="clearAll" class="btn ghost" type="button">清空</button>
+    <div id="bulkActions" class="bulk-actions"></div>
+  </div>
+</div>
+
+<div class="drop-overlay"><div>松开鼠标即可上传</div></div>
+
+<div id="previewModal" class="modal" hidden>
+  <div class="modal-box">
+    <div class="modal-head"><b id="previewTitle"></b><div class="spacer"></div><button id="closePreview" class="btn ghost" type="button">关闭</button></div>
+    <iframe id="previewFrame" title="预览"></iframe>
+  </div>
+</div>
+
+<!-- 第三方库（已内置，离线可用） -->
+<script src="lib/xlsx.full.min.js"></script>
+<script src="lib/jspdf.umd.min.js"></script>
+<script src="lib/jspdf.plugin.autotable.min.js"></script>
+<script src="lib/jszip.min.js"></script>
+<script src="lib/pdf.min.js"></script>
+<script src="lib/pdf.worker.min.js"></script>
+
+<!-- 通用核心 -->
+<script src="js/core/registry.js"></script>
+<script src="js/core/pdf-reader.js"></script>
+<script src="js/core/readers.js"></script>
+<script src="js/core/ocr.js"></script>
+<script src="js/core/shipping.js"></script>
+<script src="js/core/pdf-kit.js"></script>
+
+<!-- 模版：形式发票 PI -->
+<script src="js/templates/pi/config.js"></script>
+<script src="js/templates/pi/assets.js"></script>
+<script src="js/templates/pi/excel-template.js"></script>
+<script src="js/templates/pi/parser.js"></script>
+<script src="js/templates/pi/pdf.js"></script>
+<script src="js/templates/pi/xlsx-export.js"></script>
+<script src="js/templates/pi/index.js"></script>
+<!-- 模版：银行交单 装箱单 PL / 符合性证书 COC -->
+<script src="js/templates/bank/index.js"></script>
+<!-- 模版：客户单证 批次装箱单 / 批次发票 -->
+<script src="js/templates/batch/assets.js"></script>
+<script src="js/templates/batch/parser.js"></script>
+<script src="js/templates/batch/index.js"></script>
+<!-- 新模版：在这里加上它的文件 -->
+
+<script src="js/templates/coming-soon.js"></script>
+<script src="js/core/app.js"></script>
+</body>
+</html>

@@ -170,8 +170,28 @@ To roll back, prepare and review a new revert commit on `main`, then push it. Do
 `~/cotex-china/cotex-china-tools` (source commit
 `df1cb3b2169311269adeabd67eead92acefb3fce`).
 
-The deployed copy contains `index.html`, `css/`, `js/`, `lib/`, and `assets/`.
-Keep relative asset paths and the trailing slash: PDF and OCR workers load their
-bundled resources below this directory. No backend or build step is required.
-For updates, sync only those runtime files into `tools/double/`, verify Excel,
-PDF and OCR in a browser, then commit and push to the Pages branch `main`.
+The deployed subtree contains password-encrypted HTML and generic third-party
+`lib/` dependencies. First-party JS, CSS, company configuration, logos and stamps
+are bundled inside the encrypted page; do not copy their plaintext files here.
+All HTML pages discovered in the source project are protected by the same build.
+The current application has one HTML page; its six document templates and PDF
+previews run inside the unlocked page. Refreshing or reopening asks for the
+password again. No password or unlock state is stored in cookies/browser storage.
+Other website paths are unchanged.
+
+To publish an update, run `node scripts/build-double-protected.mjs` with the shared
+password on standard input (use a hidden prompt, never a command argument). An
+optional first argument selects the source project directory. The builder bundles
+and encrypts each page with PBKDF2-SHA256 (600,000 iterations) and AES-256-GCM,
+verifies decryption, then replaces only `tools/double/`. Keep generic PDF/OCR
+libraries at their existing paths. Never manually copy unprotected HTML into
+this subtree. Verify the locked routes, wrong password, correct password,
+Excel/PDF/OCR and the normal website before committing and pushing `main`.
+The browser regression check is `python scripts/test-double-password.py URL`
+(requires Playwright/Chromium; optionally set `CHROMIUM_EXECUTABLE`). It prompts
+for the password without echoing it. Run `node scripts/test-site.mjs` for the
+existing public pages.
+
+This is a static encrypted access gate on GitHub Pages, not server-side user
+accounts. Previously published files remain in repository history; the gate
+does not revoke copies of the old public version.

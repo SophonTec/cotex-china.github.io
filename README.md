@@ -167,7 +167,7 @@ To roll back, prepare and review a new revert commit on `main`, then push it. Do
 ## Double document tools
 
 `https://www.cotex-china.com/tools/double/` serves the static document tool from
-`~/cotex-china/cotex-china-tools` (source commit
+`~/cotex-china/cotex-pi-tool` (source commit
 `df1cb3b2169311269adeabd67eead92acefb3fce`).
 
 The deployed subtree contains password-encrypted HTML and generic third-party
@@ -195,3 +195,31 @@ existing public pages.
 This is a static encrypted access gate on GitHub Pages, not server-side user
 accounts. Previously published files remain in repository history; the gate
 does not revoke copies of the old public version.
+
+## AM bill tool
+
+`https://www.cotex-china.com/tools/ambill/` serves the private source repository
+`SophonTec/ambill-tool`, checked out locally at `~/cotex-china/cotex-ambill-tool`
+(source commit `9cc27cd3e6c238d7d14cdeb9b2cebea5e54e866f`).
+
+Run `node scripts/build-ambill-protected.mjs` with the shared password on standard
+input using a hidden prompt. The optional first argument overrides the source
+checkout. The builder inlines the application, CSS, company documents and seed
+product data, encrypts each HTML page with PBKDF2-SHA256/AES-256-GCM, verifies the
+round trip and publishes only encrypted HTML plus generic `lib/` files under
+`tools/ambill/`. Never copy raw `js/`, `server.py`, local `data/`, or source Git
+metadata into the public website. Passwords are not saved in the repository or
+browser storage; reloading or reopening requires the password again.
+
+The hosted application uses browser IndexedDB for products, drafts and invoice
+history. It has no shared server database; each user's browser keeps its own data.
+Product library backup/import is available in the application. `server.py` is
+only for the source tool's optional local-file persistence mode and is not hosted.
+
+Verify with `python scripts/test-ambill-password.py URL` (Playwright/Chromium,
+optional `CHROMIUM_EXECUTABLE`, password entered at the hidden prompt), followed
+by `node scripts/test-site.mjs`. The browser check covers the gate, 26 seed
+products, quantity calculation, PDF export, OCR and persistence across unlocks.
+
+The PI source checkout was renamed to `~/cotex-china/cotex-pi-tool`; the existing
+`/tools/double/` URL and its published encrypted page remain unchanged.

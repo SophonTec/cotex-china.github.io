@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 // Keep the password out of source, command arguments, logs and published assets.
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const source = resolve(process.argv[2] || join(repo, '..', 'cotex-china-tools'));
+const source = resolve(process.argv[2] || join(repo, '..', 'cotex-pi-tool'));
 const target = join(repo, 'tools', 'double');
 const password = readFileSync(0, 'utf8').replace(/\r?\n$/, '');
 if (!password) throw new Error('Provide the shared password on stdin');

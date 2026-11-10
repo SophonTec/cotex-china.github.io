@@ -168,7 +168,7 @@ To roll back, prepare and review a new revert commit on `main`, then push it. Do
 
 `https://www.cotex-china.com/tools/double/` serves the static document tool from
 `~/cotex-china/cotex-pi-tool` (`SophonTec/pi-tool`, source commit
-`f67cf58693be3019bcb1d883c1227351060ac6fc`).
+`96456d9e3df4c9eb9c635e11f0be7663d9c435e6`).
 
 The deployed subtree contains password-encrypted HTML and generic third-party
 `lib/` dependencies. First-party JS, CSS, company configuration, logos and stamps
@@ -198,15 +198,15 @@ The browser regression check is `python scripts/test-double-password.py URL`
 for the password without echoing it. Run `node scripts/test-site.mjs` for the
 existing public pages.
 
-This is a static encrypted access gate on GitHub Pages, not server-side user
-accounts. Previously published files remain in repository history; the gate
+The content gate uses static encryption on GitHub Pages, followed by server-side
+tool authentication to open an archive session. Previously published files remain in repository history; the gate
 does not revoke copies of the old public version.
 
 ## AM bill tool
 
 `https://www.cotex-china.com/tools/ambill/` serves the private source repository
 `SophonTec/ambill-tool`, checked out locally at `~/cotex-china/cotex-ambill-tool`
-(source commit `9cc27cd3e6c238d7d14cdeb9b2cebea5e54e866f`).
+(source commit `d6a25e55e04618acbc883efb291845e5bddd6bc4`).
 
 Run `node scripts/build-ambill-protected.mjs` with the shared password on standard
 input using a hidden prompt. The optional first argument overrides the source
@@ -218,7 +218,7 @@ metadata into the public website. Passwords are not saved in the repository or
 browser storage; reloading or reopening requires the password again.
 
 The hosted application uses browser IndexedDB for products, drafts and invoice
-history. It has no shared server database; each user's browser keeps its own data.
+history. Each user's browser keeps its own working data; the shared admin service separately archives usage and output files.
 Product library backup/import is available in the application. `server.py` is
 only for the source tool's optional local-file persistence mode and is not hosted.
 
@@ -229,3 +229,30 @@ products, quantity calculation, PDF export, OCR and persistence across unlocks.
 
 The PI source checkout was renamed to `~/cotex-china/cotex-pi-tool`; the existing
 `/tools/double/` URL and its published encrypted page remain unchanged.
+
+## Internal tool administration
+
+`/tools/admin/` is the public static login shell for the private `SophonTec/admin-tool`
+project at `~/cotex-china/admin-tool`. All records and file bytes require server-side
+administrator authentication at `https://erp.cotex-china.com/tools-admin-api/`.
+No archive data, password hashes or backend configuration are published in Pages.
+The independent `cotex-admin` service stores its SQLite database and files in
+`/var/lib/cotex-admin`, separate from ERP. Passwords are entered through hidden
+configuration prompts, never committed.
+
+Both tool gates now verify a scoped archive session after decryption and retain it
+only in page memory. Successful opening, output preview, export/download and AM
+library backup are recorded. Files are archived before they are given to the browser;
+network failures are shown to the user and stop that output operation. The same Blob
+is archived and downloaded. Original input files are not automatically uploaded.
+Notices in both tools explain this behavior. The admin UI displays Beijing time to
+the second and supports filtering, previews, individual/bulk downloads and confirmed
+file deletion; usage records remain after deletion. No historical local outputs can
+be reconstructed. Tool passwords and existing URL paths are unchanged.
+
+Stage the admin frontend with `python3 ../admin-tool/scripts/publish-static.py . ../cotex-pi-tool`.
+Rebuild the two encrypted tools with their existing builders. Run backend tests and
+`admin-tool/tests/browser_check.py` against an isolated temporary backend before
+publishing. This integration check exercises both real tool UIs, archive byte equality,
+all supported previews, batch download, date display, deletion, failure behavior and
+mobile layout without sending test records to production.

@@ -127,6 +127,42 @@ with sync_playwright() as p:
         return {excel:true,pdf:true,ocr:true};
     }''')
     assert result == {'excel': True, 'pdf': True, 'ocr': True}
+    pi_result = page.evaluate("""async () => {
+        const rows = [
+          ['NO: QA-2026-01'], ['DATE: 2026-11-11'],
+          ['CLIENT', null, null, 'BANK'], ['QA BUYER, ALGERIA', null, null, 'QA BANK'],
+          ['N°', 'Désignation', 'QUANT', '', 'Prix', 'Montant'],
+          [1, 'SCARF', 'PCS', 100, 2, 200], [2, 'SHIRT', 'PCS', 20, 5, 100],
+          [null, 'DESTINATION : ALGER PORT'], [null, 'NATURE DE LA MARCHANDISE : TEXTILES...'],
+          [null, 'MODE DE PAIEMENT : AVUE...'],
+        ];
+        const {pi,warnings}=PIParser.parseRows(rows,'synthetic.xlsx',PI_CONFIG);
+        if(pi.items.length!==2 || pi.items[0].qty!==100 || pi.items[1].desc!=='SHIRT') throw Error('Merged quantity / terms boundary regression');
+        if(pi.nature!=='TEXTILES' || pi.payment!=='À VUE' || pi.destinationPort!=='ALGER, ALGERIA') throw Error('PI terms regression');
+        if(pi.loadingPort!==PI_CONFIG.defaults.loadingPort || !warnings.some(w=>w.msg.includes('默认值')) || !warnings.some(w=>w.msg.includes('没有合计行'))) throw Error('Review warnings missing');
+        if(PIParser.computeTotals(pi).total!==300) throw Error('PI total regression');
+        const unlabeled=PIParser.parseRows([...rows.slice(0,7),[null,null,null,null,null,300],...rows.slice(7)],'unlabeled.xlsx',PI_CONFIG).pi;
+        if(unlabeled.customerTotal!==300 || unlabeled.summary[0].label!=='TOTAL en USD') throw Error('Unlabeled total regression');
+        const incomplete=PIParser.parseRows(rows.slice(2),'incomplete.xlsx',PI_CONFIG).pi;
+        if(incomplete.invoiceNo || incomplete.date || !PIParser.validate(incomplete).some(w=>w.level==='error')) throw Error('Missing invoice/date regression');
+        const copy={...pi,invoiceNo:'QA-2026-02',items:Array.from({length:12},(_,i)=>({...pi.items[i%2]}))};
+        const data=await PIXlsx.buildXlsx([pi,copy],'uint8array');
+        const wb=XLSX.read(data,{type:'array'});
+        if(wb.SheetNames.length!==2) throw Error('Multi-sheet export regression');
+        for(const name of wb.SheetNames) {
+          const cells=XLSX.utils.sheet_to_json(wb.Sheets[name],{header:1}).flat().map(String);
+          if(!cells.some(v=>v.includes('NATURE DE LA MARCHANDISE: TEXTILES'))) throw Error('Nature missing from Excel');
+          if(cells.some(v=>/TOTAL.*PAYER/i.test(v))) throw Error('Stale TOTAL A PAYER remains in Excel');
+        }
+        const blob=await DocTool.get('pi').exports.find(e=>e.id==='pdf').build([pi]);
+        const pdf=await pdfjsLib.getDocument({data:new Uint8Array(await blob.arrayBuffer())}).promise;
+        let text='';
+        for(let n=1;n<=pdf.numPages;n++) text+=(await (await pdf.getPage(n)).getTextContent()).items.map(i=>i.str).join(' ');
+        if(!text.includes('TEXTILES') || !text.includes('NATURE DE LA MARCHANDISE')) throw Error('Nature missing from PDF');
+        const pages=pdf.numPages;await pdf.destroy();
+        return {total:300,worksheets:2,pdfPages:pages};
+    }""")
+    passed('PI merged headings, missing fields/totals, review warnings, nature and PDF/Excel exports verified.')
     stored_values = page.evaluate('JSON.stringify({local:{...localStorage},session:{...sessionStorage}})')
     assert password not in stored_values, 'Password persisted in browser storage'
     if output:

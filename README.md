@@ -167,8 +167,8 @@ To roll back, prepare and review a new revert commit on `main`, then push it. Do
 ## Double document tools
 
 `https://www.cotex-china.com/tools/double/` serves the static document tool from
-`~/cotex-china/cotex-pi-tool` (source commit
-`df1cb3b2169311269adeabd67eead92acefb3fce`).
+`~/cotex-china/cotex-pi-tool` (`SophonTec/pi-tool`, source commit
+`f67cf58693be3019bcb1d883c1227351060ac6fc`).
 
 The deployed subtree contains password-encrypted HTML and generic third-party
 `lib/` dependencies. First-party JS, CSS, company configuration, logos and stamps
@@ -178,6 +178,12 @@ The current application has one HTML page; its six document templates and PDF
 previews run inside the unlocked page. Refreshing or reopening asks for the
 password again. No password or unlock state is stored in cookies/browser storage.
 Other website paths are unchanged.
+
+The 2026-11-11 update includes merged quantity headers, unlabeled/missing totals,
+missing invoice/date checks, default-term review warnings and cargo nature in
+PDF/Excel. Parsing samples stop at the footer and ignore wrapped descriptions;
+terms placed in the description column no longer become part of product names.
+Excel exports remove the template’s extra TOTAL À PAYER cells.
 
 To publish an update, run `node scripts/build-double-protected.mjs` with the shared
 password on standard input (use a hidden prompt, never a command argument). An

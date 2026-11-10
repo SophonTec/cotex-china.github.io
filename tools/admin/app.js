@@ -40,6 +40,22 @@
     finally { $('login-button').disabled = false; }
   });
   $('logout').addEventListener('click', async () => { try { await api('/auth/logout', { method: 'POST' }); } catch (_) {} lock(); });
+  document.querySelectorAll('[data-launch]').forEach(link => {
+    link.addEventListener('click', async event => {
+      event.preventDefault();
+      if (link.dataset.busy) return;
+      link.dataset.busy = 'true'; link.setAttribute('aria-busy', 'true'); error();
+      // Open synchronously to keep the user's click eligible for a new tab.
+      const child = window.open('about:blank', '_blank');
+      if (child) { child.sessionStorage.removeItem('cotex-admin-token'); child.opener = null; child.document.title = '正在打开工具…'; child.document.body.textContent = '正在打开工具，请稍候…'; }
+      try {
+        const result = await json('/admin/launch', { method: 'POST', body: JSON.stringify({ tool: link.dataset.launch }) });
+        const url = new URL(link.href); url.searchParams.set('entry', 'admin-v1'); url.hash = 'launch=' + encodeURIComponent(result.ticket);
+        if (child && !child.closed) child.location.replace(url.href); else location.assign(url.href);
+      } catch (e) { if (child && !child.closed) child.close(); error(e.message); }
+      finally { delete link.dataset.busy; link.removeAttribute('aria-busy'); }
+    });
+  });
   async function enter() { $('login-view').hidden = true; $('workspace').hidden = false; await refresh(); }
   async function summary() {
     const data = await json('/summary'); if (!token) return;

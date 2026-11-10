@@ -256,3 +256,16 @@ Rebuild the two encrypted tools with their existing builders. Run backend tests 
 publishing. This integration check exercises both real tool UIs, archive byte equality,
 all supported previews, batch download, date display, deletion, failure behavior and
 mobile layout without sending test records to production.
+
+The admin page also provides PI / AMBILL launch links. The admin password is retained;
+links exchange a short-lived, single-use ticket for the selected tool's decryption key
+and archive session. Tickets are immediately removed from URL fragments. Direct tool
+visits still require their original passwords. No tool password is embedded in a link.
+
+For every protected-tool rebuild, set `COTEX_TOOL_KEY_OUTPUT` to a new private path
+outside this public repository. The builder writes a 0600 JSON file containing the
+tool ID and ciphertext-fingerprint-to-key mapping. Before publishing the new HTML,
+install that file with the private admin repository's `scripts/install-launch-keys.py`
+into `/etc/cotex-admin/launch-keys/`. Keep prior keys for cached page versions. Never
+commit or copy these exported keys into the website. The gate remains usable with
+the original password if a shortcut expires or cannot be exchanged.

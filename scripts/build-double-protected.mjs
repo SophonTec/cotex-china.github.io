@@ -1,4 +1,4 @@
-import { createCipheriv, createDecipheriv, pbkdf2Sync, randomBytes } from 'node:crypto';
+import { createCipheriv, createDecipheriv, createHash, pbkdf2Sync, randomBytes } from 'node:crypto';
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, cpSync, rmSync, renameSync } from 'node:fs';
 import { dirname, resolve, relative, join, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -7,6 +7,9 @@ import { fileURLToPath } from 'node:url';
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const source = resolve(process.argv[2] || join(repo, '..', 'cotex-pi-tool'));
 const target = join(repo, 'tools', 'double');
+const keyOutput = process.env.COTEX_TOOL_KEY_OUTPUT ? resolve(process.env.COTEX_TOOL_KEY_OUTPUT) : null;
+const launchKeys = {};
+if (keyOutput && !relative(repo, keyOutput).startsWith('..' + sep)) throw new Error('Launch keys must be written outside the public website repository');
 const password = readFileSync(0, 'utf8').replace(/\r?\n$/, '');
 if (!password) throw new Error('Provide the shared password on stdin');
 const template = readFileSync(join(repo, 'scripts', 'double-password-gate.html'), 'utf8');
@@ -66,6 +69,7 @@ function seal(plaintext) {
   decipher.setAuthTag(ciphertext.subarray(-16));
   const restored = Buffer.concat([decipher.update(ciphertext.subarray(0, -16)), decipher.final()]);
   if (!restored.equals(plaintext)) throw new Error('Encryption round-trip verification failed');
+  if (keyOutput) launchKeys[createHash('sha256').update(ciphertext).digest('hex')] = key.toString('base64');
   key.fill(0);
   restored.fill(0);
   plaintext.fill(0);
@@ -79,6 +83,7 @@ function seal(plaintext) {
 // application JS, company assets, config, or the source repository into Pages.
 const output = pages(source).map(page => ({ path: relative(source, page), html: seal(bundle(page)) }));
 if (!output.some(page => page.path === 'index.html')) throw new Error('Missing index.html');
+if (keyOutput) writeFileSync(keyOutput, JSON.stringify({ tool: 'pi-tool', keys: launchKeys }), { mode: 0o600, flag: 'wx' });
 const stage = join(repo, 'tools', `.double-stage-${process.pid}`);
 const backup = join(repo, 'tools', `.double-backup-${process.pid}`);
 mkdirSync(stage, { recursive: true });

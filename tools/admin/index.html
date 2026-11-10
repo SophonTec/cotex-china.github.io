@@ -39,6 +39,11 @@
       <main>
         <div class="page-heading"><div><div class="eyebrow">TOOL ACTIVITY & FILES</div><h1>使用与文件</h1><p>每一次使用都有记录，每一份输出都可追溯。</p></div><button id="refresh">↻ 刷新记录</button></div>
         <div id="global-error" class="error-banner" role="alert" hidden></div>
+        <nav class="tool-launches" aria-label="打开业务工具">
+          <a href="/tools/double/" target="_blank" rel="noopener" data-launch="pi-tool">打开 PI Tool <span aria-hidden="true">↗</span></a>
+          <a href="/tools/ambill/" target="_blank" rel="noopener" data-launch="ambill-tool">打开 AMBILL Tool <span aria-hidden="true">↗</span></a>
+          <span>从这里进入，无需再次输入密码</span>
+        </nav>
         <section class="stats" aria-label="统计概览">
           <article><span>今日打开工具</span><strong id="stat-opens">—</strong><small>次成功进入</small></article>
           <article><span>今日导出</span><strong id="stat-exports">—</strong><small>次导出与备份</small></article>
